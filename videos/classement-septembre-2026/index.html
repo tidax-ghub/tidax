@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Classement des vendeurs — septembre 2026</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/CustomEase.min.js"></script>
+    <style>
+      @font-face { font-family: "Poppins"; font-weight: 400; src: url("assets/fonts/poppins-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Poppins"; font-weight: 600; src: url("assets/fonts/poppins-latin-600-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Poppins"; font-weight: 700; src: url("assets/fonts/poppins-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Poppins"; font-weight: 800; src: url("assets/fonts/poppins-latin-800-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Poppins"; font-weight: 900; src: url("assets/fonts/poppins-latin-900-normal.woff2") format("woff2"); }
+
+      :root {
+        --blue: #3761ad;
+        --blue-deep: #24477f;
+        --blue-ink: #1b3766;
+        --yellow: #e2de3e;
+        --orange: #ea653d;
+        --white: #ffffff;
+        --safe-x: 96px;
+        --safe-y: 54px;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--blue); }
+      #root {
+        position: relative; width: 100%; height: 100%; overflow: hidden;
+        font-family: "Poppins", sans-serif; color: var(--white); background: var(--blue);
+      }
+
+      /* ---------- fond ---------- */
+      #bg { position: absolute; inset: 0; }
+      .bg-base { position: absolute; inset: 0;
+        background: radial-gradient(120% 90% at 50% 45%, #4270bf 0%, var(--blue) 55%, #2c528f 100%); }
+      .bg-dots { position: absolute; left: -80px; top: -80px; width: 2080px; height: 1240px; opacity: 0.16;
+        background-image: radial-gradient(circle, #ffffff 2.2px, transparent 2.6px);
+        background-size: 48px 48px; }
+      .bg-glow { position: absolute; width: 1400px; height: 1400px; left: 260px; top: -160px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 60%); }
+
+      /* ---------- HUD (cadre façon bande démo) ---------- */
+      #hud { position: absolute; inset: 0; pointer-events: none; z-index: 70; }
+      .hud-txt { position: absolute; inset: 0; }
+      .corner { position: absolute; width: 34px; height: 34px; border-color: rgba(255,255,255,0.75); border-style: solid; border-width: 0; }
+      .c-tl { left: var(--safe-x); top: var(--safe-y); border-left-width: 3px; border-top-width: 3px; }
+      .c-tr { right: var(--safe-x); top: var(--safe-y); border-right-width: 3px; border-top-width: 3px; }
+      .c-bl { left: var(--safe-x); bottom: var(--safe-y); border-left-width: 3px; border-bottom-width: 3px; }
+      .c-br { right: var(--safe-x); bottom: var(--safe-y); border-right-width: 3px; border-bottom-width: 3px; }
+      .hud-t { position: absolute; top: calc(var(--safe-y) + 8px); font-size: 17px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.85; }
+      .hud-tl { left: calc(var(--safe-x) + 50px); }
+      .hud-tr { right: calc(var(--safe-x) + 50px); }
+      .hud-tl i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--orange); margin-right: 12px; vertical-align: 1px; }
+      .hud-b { position: absolute; bottom: calc(var(--safe-y) + 6px); font-size: 17px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; }
+      .hud-sec { left: calc(var(--safe-x) + 50px); width: 700px; height: 26px; }
+      .hud-sec span { position: absolute; left: 0; top: 0; white-space: nowrap; opacity: 0; }
+      .hud-sec b { color: var(--yellow); margin-right: 14px; }
+      .hud-prog { right: calc(var(--safe-x) + 50px); bottom: calc(var(--safe-y) + 14px); width: 300px; height: 4px; background: rgba(255,255,255,0.22); }
+      .hud-prog-fill { display: block; width: 100%; height: 100%; background: var(--orange); transform-origin: 0 50%; }
+
+      /* ---------- scènes ---------- */
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      .content { position: absolute; left: var(--safe-x); right: var(--safe-x); top: 120px; bottom: 112px; }
+      .mask { display: block; overflow: hidden; padding-bottom: 0.08em; }
+      .mask > span { display: block; }
+
+      /* logo (mot-symbole provisoire) */
+      .logo { display: flex; align-items: center; gap: 22px; }
+      .logo-mark { width: 92px; height: 92px; background: var(--white); color: var(--blue); display: flex; align-items: center; justify-content: center;
+        font-weight: 900; font-size: 60px; border-radius: 10px; position: relative; }
+      .logo-mark::after { content: ""; position: absolute; right: -8px; bottom: -8px; width: 26px; height: 26px; background: var(--orange); border-radius: 4px; }
+      .logo-text { display: flex; flex-direction: column; line-height: 1.02; }
+      .logo-text b { font-weight: 800; font-size: 46px; letter-spacing: 0.06em; }
+      .logo-text i { font-style: normal; font-weight: 600; font-size: 22px; letter-spacing: 0.38em; opacity: 0.9; }
+
+      /* intro */
+      .shape { position: absolute; display: block; }
+      .g-circle { width: 520px; height: 520px; border-radius: 50%; background: var(--yellow); right: 150px; top: 170px; }
+      .g-ring { width: 300px; height: 300px; border-radius: 50%; border: 14px solid var(--white); right: 110px; top: 610px; opacity: 0.9; }
+      .g-square { width: 360px; height: 360px; background: var(--blue-deep); right: 230px; top: 420px; }
+      .g-bar1 { left: 0; bottom: 150px; width: 1040px; height: 74px; background: var(--orange); transform-origin: 0 50%; }
+      .g-bar2 { left: 0; bottom: 112px; width: 560px; height: 22px; background: var(--white); transform-origin: 0 50%; }
+      .g-tri { width: 210px; height: 210px; background: var(--orange); right: 560px; top: 760px; clip-path: polygon(0 100%, 100% 100%, 100% 0); }
+      .g-sq-small { width: 70px; height: 70px; background: var(--orange); right: 760px; top: 250px; }
+      .intro-copy { position: absolute; left: 160px; top: 230px; width: 1050px; }
+      .intro-copy .logo { margin-bottom: 70px; }
+      .intro-title { font-weight: 800; font-size: 116px; line-height: 1.04; letter-spacing: -0.02em; }
+      .intro-title .y { color: var(--yellow); }
+      .intro-rule { display: block; margin-top: 34px; width: 320px; height: 12px; background: var(--orange); transform-origin: 0 50%; }
+
+      /* chiffres clés */
+      .kicker { display: inline-block; font-size: 22px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--white);
+        padding: 6px 16px; border: 3px solid var(--orange); background: var(--blue-ink); border-radius: 6px; }
+      .h2 { font-weight: 800; font-size: 76px; line-height: 1.05; letter-spacing: -0.015em; margin-top: 22px; }
+      .stats { position: absolute; left: 0; right: 0; bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+      .stat { position: relative; padding-top: 30px; }
+      .stat-line { position: absolute; left: 0; top: 0; width: 100%; height: 8px; background: rgba(255,255,255,0.2); }
+      .stat-line i { display: block; width: 100%; height: 100%; background: var(--orange); transform-origin: 0 50%; }
+      .stat-num { font-weight: 800; font-size: 230px; line-height: 1; color: var(--yellow); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+      .stat-lab { font-weight: 600; font-size: 40px; line-height: 1.2; margin-top: 18px; max-width: 470px; }
+
+      /* top */
+      .top-bg8 { position: absolute; right: 30px; bottom: -330px; font-weight: 900; font-size: 1300px; line-height: 1; color: #3c68b5;
+        -webkit-text-stroke: 5px rgba(255,255,255,0.16); }
+      .top-cards { position: absolute; left: 0; right: 0; top: 230px; display: flex; flex-direction: column; gap: 40px; }
+      .top-card { position: relative; display: flex; align-items: center; height: 250px; padding: 0 60px 0 76px; background: rgba(27,55,102,0.62); border-radius: 18px; overflow: visible; }
+      .top-card .bar { position: absolute; left: 0; top: 0; width: 22px; height: 100%; background: var(--orange); border-radius: 18px 0 0 18px; transform-origin: 50% 100%; }
+      .top-txt { flex: 1; }
+      .top-name { font-size: 96px; line-height: 1.05; letter-spacing: -0.015em; white-space: nowrap; }
+      .top-name b { font-weight: 800; }
+      .top-name span { font-weight: 400; }
+      .top-ag { font-size: 34px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 8px; opacity: 0.88; }
+      .top-badge-wrap { position: relative; width: 200px; height: 200px; }
+      .top-ring { position: absolute; inset: 0; border-radius: 50%; border: 8px solid var(--orange); }
+      .top-badge { position: absolute; inset: 0; border-radius: 50%; background: var(--yellow); color: var(--blue-ink); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .top-badge b { font-weight: 900; font-size: 112px; line-height: 0.9; }
+      .top-badge span { font-weight: 700; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; }
+      .stamp { position: absolute; right: 0; top: 0; display: inline-block; padding: 14px 28px; border: 5px solid var(--orange); color: var(--white); background: var(--blue-ink);
+        font-weight: 800; font-size: 40px; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 10px; }
+
+      /* paliers */
+      .tier-head { display: flex; align-items: center; gap: 34px; height: 130px; }
+      .tier-badge { width: 130px; height: 130px; border-radius: 50%; background: var(--yellow); color: var(--blue-ink); display: flex; align-items: center; justify-content: center;
+        font-weight: 900; font-size: 92px; line-height: 1; }
+      .tier-title { font-weight: 800; font-size: 96px; line-height: 1; letter-spacing: -0.02em; }
+      .tier-sub { font-weight: 600; font-size: 30px; letter-spacing: 0.16em; text-transform: uppercase; margin-top: 8px; opacity: 0.85; }
+      .tier-page { margin-left: auto; font-weight: 700; font-size: 26px; letter-spacing: 0.2em; position: relative; width: 120px; height: 40px; }
+      .tier-page span { position: absolute; right: 0; top: 0; opacity: 0; }
+      .grid { position: absolute; left: 0; right: 0; display: grid; }
+      .card { position: relative; background: rgba(27,55,102,0.55); border-radius: 14px; overflow: hidden; }
+      .card .bar { position: absolute; left: 0; top: 0; width: 10px; height: 100%; background: var(--orange); transform-origin: 50% 0; }
+      .card .nom { font-weight: 800; line-height: 1.1; letter-spacing: -0.005em; }
+      .card .pre { font-weight: 400; line-height: 1.15; }
+      .card .ag { font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.82; margin-top: 6px; }
+
+      /* défilé */
+      .crawl-win { position: absolute; left: var(--safe-x); right: var(--safe-x); top: 112px; bottom: 100px; overflow: hidden;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 90px), transparent 100%);
+        mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 90px), transparent 100%); }
+      .crawl-track { position: absolute; left: 0; right: 0; top: 0; padding-top: 70px; padding-bottom: 90px; }
+      .crawl-sec { margin-bottom: 70px; }
+      .crawl-head { display: flex; align-items: center; gap: 28px; margin-bottom: 30px; }
+      .crawl-head .tier-badge { width: 110px; height: 110px; font-size: 78px; }
+      .crawl-head .tier-title { font-size: 80px; }
+      .crawl-grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 32px; }
+      .crow { height: 100px; padding-left: 26px; position: relative; }
+      .crow::before { content: ""; position: absolute; left: 0; top: 12px; width: 8px; height: 48px; background: var(--orange); border-radius: 2px; }
+      .crow .nm { white-space: nowrap; line-height: 1.2; }
+      .crow .nm b { font-weight: 800; }
+      .crow .nm span { font-weight: 400; }
+      .crow .ag { font-size: 21px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.8; }
+
+      /* outro */
+      .outro-copy { position: absolute; left: 0; right: 0; top: 250px; text-align: center; }
+      .outro-title { font-weight: 800; font-size: 150px; line-height: 1.04; letter-spacing: -0.025em; }
+      .outro-title .y { color: var(--yellow); }
+      .outro-copy .logo { justify-content: center; margin-top: 90px; }
+      .o-circle { width: 300px; height: 300px; border-radius: 50%; background: var(--yellow); left: 120px; top: 110px; }
+      .o-bar { right: 0; bottom: 160px; width: 620px; height: 60px; background: var(--orange); transform-origin: 100% 50%; }
+      .o-ring { width: 220px; height: 220px; border-radius: 50%; border: 12px solid var(--white); right: 210px; top: 150px; }
+      .o-tri { width: 170px; height: 170px; background: var(--orange); left: 230px; bottom: 120px; clip-path: polygon(0 0, 100% 100%, 0 100%); }
+
+      /* volets de transition */
+      #wipe { position: absolute; inset: 0; z-index: 60; overflow: hidden; pointer-events: none; }
+      .wp { position: absolute; top: 0; bottom: 0; left: 0; width: 100%; }
+      .wp-o { background: var(--orange); }
+      .wp-y { background: var(--yellow); width: 100%; }
+      .wp-b { background: var(--blue-deep); }
+      .wp-b::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 14px; background: var(--orange); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="73.0" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="73.0" data-track-index="0">
+        <div class="bg-base"></div>
+        <div class="bg-glow" id="bg-glow"></div>
+        <div class="bg-dots" id="bg-dots"></div>
+      </div>
+
+      <section id="s-intro" class="clip scene" data-start="0" data-duration="4" data-track-index="1">
+        <div class="shape g-square" id="g-square"></div>
+        <div class="shape g-circle" id="g-circle"></div>
+        <div class="shape g-ring" id="g-ring"></div>
+        <div class="shape g-tri" id="g-tri"></div>
+        <div class="shape g-sq-small" id="g-sq-small"></div>
+        <div class="shape g-bar2" id="g-bar2"></div>
+        <div class="shape g-bar1" id="g-bar1"></div>
+        <div class="intro-copy">
+          <div class="logo" id="intro-logo">
+            <div class="logo-mark">M</div>
+            <div class="logo-text"><b>MÉDICIS</b><i>Immobilier neuf</i></div>
+          </div>
+          <div class="intro-title">
+            <span class="mask"><span id="it-1">Classement</span></span>
+            <span class="mask"><span id="it-2">des vendeurs</span></span>
+            <span class="mask"><span id="it-3" class="y">septembre 2026</span></span>
+          </div>
+          <span class="intro-rule" id="intro-rule"></span>
+        </div>
+      </section>
+
+      <section id="s-figures" class="clip scene" data-start="4" data-duration="6" data-track-index="1">
+        <div class="content">
+          <div class="kicker" id="fg-kicker">Septembre 2026</div>
+          <div class="h2"><span class="mask"><span id="fg-title">Le mois en chiffres</span></span></div>
+          <div class="stats" id="stats"></div>
+        </div>
+      </section>
+
+      <section id="s-top" class="clip scene" data-start="10" data-duration="7" data-track-index="1">
+        <div class="top-bg8" id="top-bg8" data-layout-ignore aria-hidden="true"></div>
+        <div class="content">
+          <div class="kicker" id="top-kicker">Top du classement</div>
+          <div class="h2"><span class="mask"><span id="top-title"></span></span></div>
+          <div class="stamp" id="top-stamp">Ex æquo</div>
+          <div class="top-cards" id="top-cards"></div>
+        </div>
+      </section>
+
+      <section id="s-tier-6" class="clip scene" data-start="17.0" data-duration="3.5" data-track-index="1"></section>
+      <section id="s-tier-5" class="clip scene" data-start="20.5" data-duration="4.0" data-track-index="1"></section>
+      <section id="s-tier-4" class="clip scene" data-start="24.5" data-duration="5.0" data-track-index="1"></section>
+      <section id="s-tier-3" class="clip scene" data-start="29.5" data-duration="9.0" data-track-index="1"></section>
+
+      <section id="s-crawl" class="clip scene" data-start="38.5" data-duration="30.5" data-track-index="1">
+        <div class="crawl-win"><div class="crawl-track" id="crawl-track"></div></div>
+      </section>
+
+      <section id="s-outro" class="clip scene" data-start="69.0" data-duration="4.0" data-track-index="1">
+        <div class="shape o-circle" id="o-circle"></div>
+        <div class="shape o-ring" id="o-ring"></div>
+        <div class="shape o-bar" id="o-bar"></div>
+        <div class="shape o-tri" id="o-tri"></div>
+        <div class="outro-copy">
+          <div class="outro-title">
+            <span class="mask"><span id="ot-1">Bravo à</span></span>
+            <span class="mask"><span id="ot-2" class="y">toute l’équipe</span></span>
+          </div>
+          <div class="logo" id="outro-logo">
+            <div class="logo-mark">M</div>
+            <div class="logo-text"><b>MÉDICIS</b><i>Immobilier neuf</i></div>
+          </div>
+        </div>
+      </section>
+
+      <div id="hud" class="clip" data-start="0" data-duration="73.0" data-track-index="2">
+        <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
+        <div class="hud-txt" id="hud-txt">
+          <div class="hud-t hud-tl"><i></i>Médicis Immobilier Neuf · Classement vendeurs</div>
+          <div class="hud-t hud-tr">Septembre 2026</div>
+          <div class="hud-b hud-sec" id="hud-sec"></div>
+        </div>
+        <div class="hud-b hud-prog"><i class="hud-prog-fill" id="hud-prog"></i></div>
+      </div>
+
+      <div id="wipe" class="clip" data-start="0" data-duration="73.0" data-track-index="3">
+        <div class="wp wp-o" id="wp-o"></div>
+        <div class="wp wp-y" id="wp-y"></div>
+        <div class="wp wp-b" id="wp-b"></div>
+      </div>
+
+      <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="73.0" data-track-index="4" data-volume="1"></audio>
+      <audio id="sfx" src="assets/audio/sfx.wav" data-start="0" data-duration="73.0" data-track-index="5" data-volume="1"></audio>
+    </div>
+
+    <script>
+      const D = {"T": {"intro": 0.0, "figures": 4.0, "top": 10.0, "t6": 17.0, "t5": 20.5, "t4": 24.5, "t3": 29.5, "t3page2": 34.0, "crawl": 38.5, "outro": 69.0, "end": 73.0}, "stats": {"count": 98, "total": 225, "max": 8}, "tiers": [{"n": 8, "people": [{"nom": "DESCORET", "prenom": "Anaïs", "agence": "Lyon"}, {"nom": "MAGDI", "prenom": "Abdallah", "agence": "Lyon"}]}, {"n": 6, "people": [{"nom": "FRISCH", "prenom": "Florent", "agence": "Lyon"}]}, {"n": 5, "people": [{"nom": "BINET", "prenom": "Sébastien", "agence": "Rouen"}, {"nom": "JIMENEZ", "prenom": "Eduardo", "agence": "Toulon"}, {"nom": "PRATS", "prenom": "Olivier", "agence": "Toulouse"}]}, {"n": 4, "people": [{"nom": "BARAN", "prenom": "Karolina", "agence": "Montpellier"}, {"nom": "BOURLES", "prenom": "Sophie", "agence": "Montpellier"}, {"nom": "HOAREAU", "prenom": "Lorraine", "agence": "Marseille"}, {"nom": "MICHENAUD", "prenom": "Charline", "agence": "Challans"}, {"nom": "MIMART", "prenom": "Sidonie", "agence": "Toulouse"}, {"nom": "SIMON", "prenom": "Julie", "agence": "Brest"}]}, {"n": 3, "people": [{"nom": "BENAI", "prenom": "Kamel", "agence": "Le Raincy - Seine St Denis"}, {"nom": "BERNARD", "prenom": "Pauline", "agence": "Nantes"}, {"nom": "BERTRAND", "prenom": "Elodie", "agence": "Bassin Genevois - St Julien"}, {"nom": "BOUSCARAS", "prenom": "Eva", "agence": "Montpellier"}, {"nom": "CIOCCA", "prenom": "Yannick", "agence": "Lyon"}, {"nom": "D'ALBA", "prenom": "Aurélie", "agence": "Marseille"}, {"nom": "GOUGELET", "prenom": "Sacha", "agence": "Levallois - Paris"}, {"nom": "GUYON", "prenom": "Coralie", "agence": "Bordeaux"}, {"nom": "LASSERY", "prenom": "Jean-Christophe", "agence": "Levallois - Paris"}, {"nom": "MARGAIN", "prenom": "Grégory", "agence": "Grenoble"}, {"nom": "MERIC", "prenom": "Rosanna", "agence": "Toulouse"}, {"nom": "MISSEGUE-DELMAS", "prenom": "Justine", "agence": "Levallois - Paris"}, {"nom": "MUESSER", "prenom": "Carole", "agence": "Toulon"}, {"nom": "PERRET", "prenom": "Charlène", "agence": "Nantes"}, {"nom": "PERRIOT", "prenom": "Aurélie", "agence": "Vannes"}, {"nom": "PIET DE BEAUREPAIRE", "prenom": "Clémence", "agence": "Marseille"}, {"nom": "REFOUFI", "prenom": "Adlane", "agence": "Evry-Courcouronnes"}, {"nom": "ROBERT", "prenom": "Vladimir", "agence": "Dijon"}, {"nom": "RONGIER", "prenom": "Thomas", "agence": "Montpellier"}, {"nom": "SERY", "prenom": "Juliette", "agence": "Marseille"}, {"nom": "STABILE-HAMLIN", "prenom": "Nathan", "agence": "Montpellier"}, {"nom": "THEVENET", "prenom": "Claire", "agence": "Lyon"}, {"nom": "TINTELIN", "prenom": "Gaëlle", "agence": "Rennes"}, {"nom": "TOPER", "prenom": "Matthieu", "agence": "Nantes"}, {"nom": "VERNAY", "prenom": "William", "agence": "Annecy"}]}, {"n": 2, "people": [{"nom": "ALLOUCHENE", "prenom": "Salem", "agence": "Torcy - Seine et Marne"}, {"nom": "BANIM", "prenom": "Meghann", "agence": "Caen"}, {"nom": "BEGLIUTI", "prenom": "Christelle", "agence": "Evry-Courcouronnes"}, {"nom": "BESSEAU", "prenom": "Pauline", "agence": "Marseille"}, {"nom": "BOYER", "prenom": "François", "agence": "Evry-Courcouronnes"}, {"nom": "CAUVIN MARY", "prenom": "Marine", "agence": "Evry-Courcouronnes"}, {"nom": "CHARLIER", "prenom": "Myriam", "agence": "Marseille"}, {"nom": "DUPRE", "prenom": "Sullivan", "agence": "Lille"}, {"nom": "FABRE", "prenom": "Widner", "agence": "Créteil"}, {"nom": "FRANZOSI", "prenom": "Alexandre", "agence": "Torcy - Seine et Marne"}, {"nom": "GEFFROY", "prenom": "Delphine", "agence": "Brest"}, {"nom": "GRANDCOIN", "prenom": "Rizlaine", "agence": "Torcy - Seine et Marne"}, {"nom": "GUIBAL", "prenom": "Franck", "agence": "Lyon"}, {"nom": "JOX-LEVY", "prenom": "Marie", "agence": "Lyon"}, {"nom": "LABOUREUR", "prenom": "Guy", "agence": "Lille"}, {"nom": "LAHOUTE", "prenom": "Juliette", "agence": "Nantes"}, {"nom": "LALLEMENT", "prenom": "Rémi", "agence": "Tours"}, {"nom": "LEFEVRE", "prenom": "Laurent", "agence": "La Rochelle"}, {"nom": "LEROUX-PEREZ", "prenom": "Cléa", "agence": "Rouen"}, {"nom": "LUCMARET", "prenom": "Juliette", "agence": "Bordeaux"}, {"nom": "MARC", "prenom": "Nicolas", "agence": "Toulouse"}, {"nom": "MASSON", "prenom": "Charlène", "agence": "Lyon"}, {"nom": "MENGUAL", "prenom": "Dylan", "agence": "Caen"}, {"nom": "METTE", "prenom": "Julie", "agence": "Caen"}, {"nom": "RENAU", "prenom": "Brice", "agence": "Torcy - Seine et Marne"}, {"nom": "ROMON", "prenom": "Justine", "agence": "Lille"}, {"nom": "SEMPOL", "prenom": "François", "agence": "Bordeaux"}, {"nom": "ZITOUNI", "prenom": "Mourad", "agence": "Evry-Courcouronnes"}]}, {"n": 1, "people": [{"nom": "AMOUROUX", "prenom": "Estelle", "agence": "Issy-les-Moulineaux"}, {"nom": "BARTHELET", "prenom": "Julien", "agence": "Evry-Courcouronnes"}, {"nom": "BEDUNEAU", "prenom": "Quentin", "agence": "Challans"}, {"nom": "BERTHE", "prenom": "Manon", "agence": "Levallois - Paris"}, {"nom": "BOUTANG", "prenom": "Remi", "agence": "Bassin Genevois - St Julien"}, {"nom": "BOUTANG", "prenom": "Virginie", "agence": "Bassin Genevois - St Julien"}, {"nom": "BUTTE", "prenom": "Jérémie", "agence": "Evry-Courcouronnes"}, {"nom": "CAMUS", "prenom": "Brice", "agence": "Torcy - Seine et Marne"}, {"nom": "DAVERNON", "prenom": "Sandrine", "agence": "Lyon"}, {"nom": "DE LEEUW", "prenom": "May", "agence": "Anglet"}, {"nom": "DESCOS", "prenom": "Isabelle", "agence": "Lyon"}, {"nom": "DUBBER", "prenom": "Thomas", "agence": "Vannes"}, {"nom": "ETIENNE", "prenom": "Chloé", "agence": "Rennes"}, {"nom": "FAURE", "prenom": "Thibaut", "agence": "Marseille"}, {"nom": "GHEERBRANT", "prenom": "Cécilia", "agence": "Issy-les-Moulineaux"}, {"nom": "GOTZALEK", "prenom": "Antony", "agence": "Nantes"}, {"nom": "GRAUSEM", "prenom": "Sophie", "agence": "Lyon"}, {"nom": "GUYONNET", "prenom": "Sylvestre", "agence": "Caen"}, {"nom": "IMBERT", "prenom": "Bruce", "agence": "Bassin Genevois - St Julien"}, {"nom": "JOUSSET", "prenom": "Margot", "agence": "Caen"}, {"nom": "LACROIX", "prenom": "Marion", "agence": "Marseille"}, {"nom": "LEDERGERBER", "prenom": "Carole", "agence": "Strasbourg"}, {"nom": "LESIMPLE", "prenom": "Patricia", "agence": "Bordeaux"}, {"nom": "LEVASSEUR", "prenom": "Gaël", "agence": "Vannes"}, {"nom": "MARTIN", "prenom": "Jérémy", "agence": "Bordeaux"}, {"nom": "MEILLER", "prenom": "Ludivine", "agence": "Anglet"}, {"nom": "MOHAMED", "prenom": "Mehdi", "agence": "Evry-Courcouronnes"}, {"nom": "PISCOPO", "prenom": "Florian", "agence": "Marseille"}, {"nom": "ROCHETEAU", "prenom": "Chloé", "agence": "Bordeaux"}, {"nom": "SPANU", "prenom": "Florent", "agence": "Lyon"}, {"nom": "VISSUZAINE", "prenom": "Thierry", "agence": "Grenoble"}, {"nom": "WASIM", "prenom": "Hamaad", "agence": "Le Raincy - Seine St Denis"}, {"nom": "WEISS", "prenom": "Emilie", "agence": "Strasbourg"}]}]};
+      const T = D.T;
+      CustomEase.create("hfOut", "0.16,1,0.3,1");
+      CustomEase.create("hfInOut", "0.65,0,0.35,1");
+      CustomEase.create("hfBack", "0.34,1.56,0.64,1");
+
+      const $ = (id) => document.getElementById(id);
+      const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+      const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+      const plural = (n, w) => `${n} ${w}${n > 1 ? "s" : ""}`;
+
+      const ctx = document.createElement("canvas").getContext("2d");
+      function measure(parts) { // parts: [[text, weight, size], ...]
+        let w = 0;
+        for (const [t, wt, s] of parts) { ctx.font = `${wt} ${s}px Poppins`; w += ctx.measureText(t).width; }
+        return w;
+      }
+      // Plus grande taille ≤ size (et ≥ min, 36 px) qui tient dans maxW.
+      function fit(partsAt, size, maxW, min = 36) {
+        let s = size;
+        while (s > min && measure(partsAt(s)) > maxW) s -= 1;
+        return s;
+      }
+
+      function build() {
+        const tl = gsap.timeline({ paused: true });
+        const SECTIONS = [];
+
+        // ---------- volets ----------
+        function wipe(at, kind) {
+          // panneaux dans l'ordre d'arrivée ; le dernier passe au-dessus et repart en premier
+          const panels = kind === "orange" ? ["wp-b", "wp-y", "wp-o"] : ["wp-b"];
+          const lead = kind === "orange" ? 0.5 : 0.42;
+          panels.forEach((id, i) => {
+            const d = i * 0.06;
+            tl.fromTo("#" + id, { xPercent: -101 }, { xPercent: 0, duration: lead - d, ease: "hfInOut", immediateRender: false }, at - lead + d);
+            tl.to("#" + id, { xPercent: 101, duration: 0.55, ease: "hfInOut" }, at + 0.02 + (panels.length - 1 - i) * 0.05);
+          });
+          panels.forEach((id, z) => tl.set("#" + id, { zIndex: z }, at - lead - 0.01));
+          // les textes du cadre s'effacent le temps du volet
+          tl.to("#hud-txt", { opacity: 0, duration: 0.15, ease: "power2.out" }, at - lead - 0.05);
+          tl.to("#hud-txt", { opacity: 1, duration: 0.3, ease: "power2.out" }, at + 0.55);
+        }
+        gsap.set(["#wp-o", "#wp-y", "#wp-b"], { xPercent: -101 });
+
+        // ---------- fond : dérive lente, figée avant la dernière seconde ----------
+        tl.fromTo("#bg-dots", { x: 0, y: 0 }, { x: -48, y: -48, duration: 34, ease: "sine.inOut" }, 0);
+        tl.to("#bg-dots", { x: 0, y: -96, duration: 37, ease: "sine.inOut" }, 34);
+        tl.fromTo("#bg-glow", { x: 0, y: 0 }, { x: -260, y: 120, duration: 35, ease: "sine.inOut" }, 0);
+        tl.to("#bg-glow", { x: 120, y: 40, duration: 36, ease: "sine.inOut" }, 35);
+
+        // ---------- HUD : section + progression par paliers ----------
+        const hudSec = $("hud-sec");
+        function section(at, idx, label) {
+          const sp = h("span", null, `<b>${String(idx).padStart(2, "0")}</b>${label}`);
+          hudSec.appendChild(sp);
+          SECTIONS.push(sp);
+          tl.set(sp, { opacity: 1 }, at);
+          if (SECTIONS.length > 1) tl.set(SECTIONS[SECTIONS.length - 2], { opacity: 0 }, at);
+          tl.to("#hud-prog", { scaleX: (at + 1) / T.end, duration: 0.8, ease: "hfInOut" }, at + 0.3);
+        }
+        gsap.set("#hud-prog", { scaleX: 0 });
+
+        // ================= 1. INTRO =================
+        section(0.0, 1, "Introduction");
+        tl.fromTo("#g-square", { scale: 0, rotation: -40 }, { scale: 1, rotation: 12, duration: 1.1, ease: "hfOut" }, 0.1);
+        tl.fromTo("#g-circle", { scale: 0 }, { scale: 1, duration: 1.0, ease: "hfOut" }, 0.2);
+        tl.fromTo("#g-bar1", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "hfOut" }, 0.3);
+        tl.fromTo("#g-bar2", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "hfOut" }, 0.42);
+        tl.fromTo("#g-ring", { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 0.9, duration: 0.9, ease: "hfOut" }, 0.5);
+        tl.fromTo("#g-tri", { x: 160, y: 160, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.9, ease: "hfOut" }, 0.58);
+        tl.fromTo("#g-sq-small", { scale: 0, rotation: 90 }, { scale: 1, rotation: 0, duration: 0.8, ease: "hfBack" }, 0.66);
+        tl.fromTo("#intro-logo", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "hfOut" }, 0.6);
+        ["#it-1", "#it-2", "#it-3"].forEach((s, i) =>
+          tl.fromTo(s, { yPercent: 110 }, { yPercent: 0, duration: 0.85, ease: "hfOut" }, 0.85 + i * 0.2));
+        tl.fromTo("#intro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "hfOut" }, 1.55);
+        // respiration légère des formes
+        tl.to("#g-circle", { x: -24, y: 18, duration: 2.0, ease: "sine.inOut" }, 1.5);
+        tl.to("#g-square", { rotation: 20, duration: 2.0, ease: "sine.inOut" }, 1.5);
+        wipe(T.figures, "orange");
+
+        // ================= 2. CHIFFRES CLÉS =================
+        section(T.figures, 2, "Chiffres clés");
+        const F = T.figures;
+        tl.fromTo("#fg-kicker", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: "hfOut" }, F + 0.35);
+        tl.fromTo("#fg-title", { yPercent: 110 }, { yPercent: 0, duration: 0.8, ease: "hfOut" }, F + 0.45);
+        const statDefs = [
+          [D.stats.count, "vendeurs classés"],
+          [D.stats.total, "ventes signées sur le mois"],
+          [D.stats.max, "ventes : record individuel du mois"],
+        ];
+        statDefs.forEach(([val, lab], i) => {
+          const st = h("div", "stat");
+          const line = h("div", "stat-line"); const fill = h("i"); line.appendChild(fill);
+          const num = h("div", "stat-num", "0"); const l = h("div", "stat-lab", esc(lab));
+          st.append(line, num, l); $("stats").appendChild(st);
+          const at = F + 0.85 + i * 0.45;
+          tl.fromTo(fill, { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "hfOut" }, at);
+          tl.fromTo([num, l], { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "hfOut", stagger: 0.08 }, at);
+          const o = { v: 0 };
+          tl.fromTo(o, { v: 0 }, { v: val, duration: 1.7, ease: "power3.out", onUpdate: () => { num.textContent = Math.round(o.v); } }, at + 0.05);
+        });
+        wipe(T.top, "orange");
+
+        // ================= 3. TOP =================
+        const top = D.tiers[0];
+        section(T.top, 3, `Top · ${plural(top.n, "vente")}`);
+        const TP = T.top;
+        $("top-bg8").textContent = top.n;
+        $("top-title").textContent = `${plural(top.n, "vente")} en septembre`;
+        tl.fromTo("#top-bg8", { y: 260, opacity: 0 }, { y: 0, opacity: 1, duration: 1.6, ease: "hfOut" }, TP + 0.3);
+        tl.fromTo("#top-kicker", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: "hfOut" }, TP + 0.4);
+        tl.fromTo("#top-title", { yPercent: 110 }, { yPercent: 0, duration: 0.8, ease: "hfOut" }, TP + 0.5);
+        const topGap = top.people.length > 2 ? 1.1 : 1.6;
+        top.people.forEach((p, i) => {
+          const c = h("div", "top-card");
+          const bar = h("div", "bar");
+          const tx = h("div", "top-txt");
+          const size = fit((s) => [[p.nom + " ", 800, s], [p.prenom, 400, s]], 96, 1240, 56);
+          tx.append(h("div", "top-name", `<b>${esc(p.nom)}</b> <span>${esc(p.prenom)}</span>`), h("div", "top-ag", esc(p.agence)));
+          tx.firstChild.style.fontSize = size + "px";
+          const bw = h("div", "top-badge-wrap");
+          const ring = h("div", "top-ring");
+          const badge = h("div", "top-badge", `<b>${top.n}</b><span>ventes</span>`);
+          bw.append(ring, badge);
+          c.append(bar, tx, bw);
+          $("top-cards").appendChild(c);
+          const at = TP + 1.0 + i * topGap;
+          tl.fromTo(c, { x: -120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.9, ease: "hfOut" }, at);
+          tl.fromTo(bar, { scaleY: 0 }, { scaleY: 1, duration: 0.7, ease: "hfOut" }, at + 0.15);
+          tl.fromTo(badge, { scale: 0, rotation: -25 }, { scale: 1, rotation: 0, duration: 0.7, ease: "hfBack" }, at + 0.45);
+          tl.fromTo(ring, { scale: 0.7, opacity: 1 }, { scale: 1.45, opacity: 0, duration: 0.9, ease: "hfOut" }, at + 0.55);
+        });
+        if (top.people.length > 1) {
+          tl.fromTo("#top-stamp", { scale: 1.8, rotation: -14, opacity: 0 }, { scale: 1, rotation: -6, opacity: 1, duration: 0.55, ease: "hfBack" },
+            TP + 1.0 + (top.people.length - 1) * topGap + 1.3);
+        } else {
+          $("top-stamp").style.display = "none";
+        }
+
+        wipe(T.t6, "blue");
+
+        // ================= 4. PALIERS INTERMÉDIAIRES =================
+        const layouts = {
+          // n vendeurs -> colonnes, tailles (NOM, prénom, agence), hauteur carte
+          1: { cols: 1, nom: 104, pre: 80, ag: 34, w: 1100, cardH: 330, pad: 64 },
+          3: { cols: 3, nom: 62, pre: 50, ag: 26, w: 1728, cardH: 300, pad: 40 },
+          6: { cols: 3, nom: 56, pre: 46, ag: 25, w: 1728, cardH: 230, pad: 36 },
+          page: { cols: 3, nom: 44, pre: 38, ag: 21, w: 1728, cardH: 130, pad: 26 },
+        };
+        const tierStarts = { 1: T.t6, 2: T.t5, 3: T.t4, 4: T.t3 };
+        const tierEnds = { 1: T.t5, 2: T.t4, 3: T.t3, 4: T.crawl };
+        const midTiers = D.tiers.slice(1, 5);
+        midTiers.forEach((tier, ti) => {
+          const S = tierStarts[ti + 1], E = tierEnds[ti + 1];
+          section(S, 4 + ti, plural(tier.n, "vente"));
+          const sec = $(`s-tier-${tier.n}`);
+          const content = h("div", "content");
+          const head = h("div", "tier-head");
+          const badge = h("div", "tier-badge", tier.n);
+          const ttl = h("div");
+          ttl.append(h("div", "tier-title", tier.n > 1 ? "ventes" : "vente"), h("div", "tier-sub", plural(tier.people.length, "vendeur")));
+          head.append(badge, ttl);
+          content.appendChild(head);
+          sec.appendChild(content);
+
+          tl.fromTo(badge, { scale: 0, rotation: -30 }, { scale: 1, rotation: 0, duration: 0.7, ease: "hfBack" }, S + 0.3);
+          tl.fromTo(ttl, { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: "hfOut" }, S + 0.42);
+
+          const n = tier.people.length;
+          const paged = n > 6;
+          const L = paged ? layouts.page : layouts[n] || layouts[6];
+          const pages = paged ? [tier.people.slice(0, Math.ceil(n / 2)), tier.people.slice(Math.ceil(n / 2))] : [tier.people];
+          const gap = paged ? 14 : 32;
+          const colW = (L.w - (L.cols - 1) * gap) / L.cols;
+          const pageTimes = paged ? [S + 0.7, T.t3page2] : [S + 0.75];
+          let pageInd = null;
+          if (paged) { pageInd = h("div", "tier-page"); head.appendChild(pageInd); }
+
+          pages.forEach((list, pi) => {
+            const grid = h("div", "grid");
+            grid.style.gridTemplateColumns = `repeat(${L.cols}, ${colW}px)`;
+            grid.style.gap = `${gap}px`;
+            grid.style.top = paged ? "150px" : "190px";
+            grid.style.justifyContent = "center";
+            const rows = Math.ceil(list.length / L.cols);
+            if (!paged) {
+              const freeH = 848 - 190;
+              grid.style.top = `${190 + Math.max(0, (freeH - rows * L.cardH - (rows - 1) * gap) / 2)}px`;
+            }
+            const cards = list.map((p) => {
+              const c = h("div", "card");
+              c.style.height = L.cardH + "px";
+              c.style.padding = `0 ${L.pad - 10}px 0 ${L.pad}px`;
+              c.style.display = "flex"; c.style.flexDirection = "column"; c.style.justifyContent = "center";
+              const inner = colW - L.pad - (L.pad - 10);
+              const ns = fit((s) => [[p.nom, 800, s]], L.nom, inner);
+              const ps = fit((s) => [[p.prenom, 400, s]], L.pre, inner);
+              c.append(h("div", "bar"), h("div", "nom", esc(p.nom)), h("div", "pre", esc(p.prenom)), h("div", "ag", esc(p.agence)));
+              c.children[1].style.fontSize = ns + "px";
+              c.children[2].style.fontSize = ps + "px";
+              c.children[3].style.fontSize = L.ag + "px";
+              grid.appendChild(c);
+              return c;
+            });
+            content.appendChild(grid);
+            const at = pageTimes[pi];
+            const stg = paged ? 0.07 : n === 1 ? 0 : n <= 3 ? 0.3 : 0.18;
+            if (pi > 0) gsap.set(cards, { opacity: 0 });
+            cards.forEach((c, k) => {
+              tl.fromTo(c, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "hfOut", immediateRender: pi === 0 }, at + k * stg);
+              tl.fromTo(c.firstChild, { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: "hfOut" }, at + k * stg + 0.12);
+            });
+            if (paged) {
+              const lab = h("span", null, `${pi + 1} / ${pages.length}`);
+              pageInd.appendChild(lab);
+              tl.set(lab, { opacity: 1 }, at);
+              if (pi > 0) tl.set(pageInd.children[pi - 1], { opacity: 0 }, at);
+              if (pi < pages.length - 1) {
+                const out = pageTimes[pi + 1] - 0.5;
+                cards.forEach((c, k) => tl.to(c, { y: -40, opacity: 0, duration: 0.4, ease: "hfInOut" }, out + k * 0.012));
+              }
+            }
+          });
+          wipe(E, ti === midTiers.length - 1 ? "orange" : "blue");
+        });
+
+        // ================= 5. DÉFILÉ FINAL =================
+        const crawlTiers = D.tiers.slice(5);
+        const CR = T.crawl;
+        section(CR, 8, crawlTiers.map((t) => plural(t.n, "vente")).join(" · "));
+        const track = $("crawl-track");
+        const colW = (1728 - 2 * 32) / 3;
+        const firstRows = [];
+        crawlTiers.forEach((tier, ci) => {
+          const s = h("div", "crawl-sec");
+          const head = h("div", "crawl-head");
+          const ttl = h("div");
+          ttl.append(h("div", "tier-title", tier.n > 1 ? "ventes" : "vente"), h("div", "tier-sub", plural(tier.people.length, "vendeur")));
+          head.append(h("div", "tier-badge", tier.n), ttl);
+          const g = h("div", "crawl-grid");
+          tier.people.forEach((p, k) => {
+            const r = h("div", "crow");
+            const size = fit((sz) => [[p.nom + " ", 800, sz], [p.prenom, 400, sz]], 40, colW - 40);
+            const nm = h("div", "nm", `<b>${esc(p.nom)}</b> <span>${esc(p.prenom)}</span>`);
+            nm.style.fontSize = size + "px";
+            r.append(nm, h("div", "ag", esc(p.agence)));
+            g.appendChild(r);
+            if (ci === 0 && k < 15) firstRows.push(r);
+          });
+          s.append(head, g);
+          track.appendChild(s);
+          if (ci === 0) firstRows.unshift(head);
+        });
+        tl.fromTo(firstRows, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "hfOut", stagger: 0.05 }, CR + 0.35);
+        // défilement par crans doux (jamais linéaire) : ~1 rangée de 3 noms par cran
+        const winH = 1080 - 112 - 100;
+        const dist = Math.max(0, track.offsetHeight - winH);
+        const t0 = CR + 1.9, t1 = T.outro - 1.0;
+        const nSteps = Math.max(1, Math.round(dist / 100));
+        const period = (t1 - t0) / nSteps;
+        const move = Math.min(0.85, period * 0.6);
+        for (let k = 0; k < nSteps; k++) {
+          tl.to(track, { y: -dist * (k + 1) / nSteps, duration: move, ease: "hfInOut" }, t0 + k * period);
+        }
+        tl.to(track, { opacity: 0, duration: 0.3, ease: "power2.in" }, T.outro - 0.5);
+        wipe(T.outro, "orange");
+
+        // ================= 6. OUTRO =================
+        const O = T.outro;
+        section(O, 9, "Bravo");
+        tl.fromTo("#o-circle", { scale: 0 }, { scale: 1, duration: 1.0, ease: "hfOut" }, O + 0.25);
+        tl.fromTo("#o-bar", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "hfOut" }, O + 0.35);
+        tl.fromTo("#o-ring", { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.9, ease: "hfOut" }, O + 0.45);
+        tl.fromTo("#o-tri", { x: -120, y: 120, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.9, ease: "hfOut" }, O + 0.55);
+        tl.fromTo("#ot-1", { yPercent: 110 }, { yPercent: 0, duration: 0.85, ease: "hfOut" }, O + 0.4);
+        tl.fromTo("#ot-2", { yPercent: 110 }, { yPercent: 0, duration: 0.85, ease: "hfOut" }, O + 0.65);
+        tl.fromTo("#outro-logo", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "hfOut" }, O + 1.15);
+        // tout est posé avant T.end - 1 s : la dernière seconde reste fixe pour le raccord.
+
+        window.__timelines["main"] = tl;
+        if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
+      }
+
+      Promise.all([400, 600, 700, 800, 900].map((w) => document.fonts.load(`${w} 40px Poppins`))).then(build);
+    </script>
+  </body>
+</html>

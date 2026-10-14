@@ -1,0 +1,547 @@
+{
+ "T": {
+  "intro": 0.0,
+  "figures": 4.0,
+  "top": 10.0,
+  "t6": 17.0,
+  "t5": 20.5,
+  "t4": 24.5,
+  "t3": 29.5,
+  "t3page2": 34.0,
+  "crawl": 38.5,
+  "outro": 69.0,
+  "end": 73.0
+ },
+ "stats": {
+  "count": 98,
+  "total": 225,
+  "max": 8
+ },
+ "tiers": [
+  {
+   "n": 8,
+   "people": [
+    {
+     "nom": "DESCORET",
+     "prenom": "Anaïs",
+     "agence": "Lyon"
+    },
+    {
+     "nom": "MAGDI",
+     "prenom": "Abdallah",
+     "agence": "Lyon"
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "people": [
+    {
+     "nom": "FRISCH",
+     "prenom": "Florent",
+     "agence": "Lyon"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "people": [
+    {
+     "nom": "BINET",
+     "prenom": "Sébastien",
+     "agence": "Rouen"
+    },
+    {
+     "nom": "JIMENEZ",
+     "prenom": "Eduardo",
+     "agence": "Toulon"
+    },
+    {
+     "nom": "PRATS",
+     "prenom": "Olivier",
+     "agence": "Toulouse"
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "people": [
+    {
+     "nom": "BARAN",
+     "prenom": "Karolina",
+     "agence": "Montpellier"
+    },
+    {
+     "nom": "BOURLES",
+     "prenom": "Sophie",
+     "agence": "Montpellier"
+    },
+    {
+     "nom": "HOAREAU",
+     "prenom": "Lorraine",
+     "agence": "Marseille"
+    },
+    {
+     "nom": "MICHENAUD",
+     "prenom": "Charline",
+     "agence": "Challans"
+    },
+    {
+     "nom": "MIMART",
+     "prenom": "Sidonie",
+     "agence": "Toulouse"
+    },
+    {
+     "nom": "SIMON",
+     "prenom": "Julie",
+     "agence": "Brest"
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "people": [
+    {
+     "nom": "BENAI",
+     "prenom": "Kamel",
+     "agence": "Le Raincy - Seine St Denis"
+    },
+    {
+     "nom": "BERNARD",
+     "prenom": "Pauline",
+     "agence": "Nantes"
+    },
+    {
+     "nom": "BERTRAND",
+     "prenom": "Elodie",
+     "agence": "Bassin Genevois - St Julien"
+    },
+    {
+     "nom": "BOUSCARAS",
+     "prenom": "Eva",
+     "agence": "Montpellier"
+    },
+    {
+     "nom": "CIOCCA",
+     "prenom": "Yannick",
+     "agence": "Lyon"
+    },
+    {
+     "nom": "D'ALBA",
+     "prenom": "Aurélie",
+     "agence": "Marseille"
+    },
+    {
+     "nom": "GOUGELET",
+     "prenom": "Sacha",
+     "agence": "Levallois - Paris"
+    },
+    {
+     "nom": "GUYON",
+     "prenom": "Coralie",
+     "agence": "Bordeaux"
+    },
+    {
+     "nom": "LASSERY",
+     "prenom": "Jean-Christophe",
+     "agence": "Levallois - Paris"
+    },
+    {
+     "nom": "MARGAIN",
+     "prenom": "Grégory",
+     "agence": "Grenoble"
+    },
+    {
+     "nom": "MERIC",
+     "prenom": "Rosanna",
+     "agence": "Toulouse"
+    },
+    {
+     "nom": "MISSEGUE-DELMAS",
+     "prenom": "Justine",
+     "agence": "Levallois - Paris"
+    },
+    {
+     "nom": "MUESSER",
+     "prenom": "Carole",
+     "agence": "Toulon"
+    },
+    {
+     "nom": "PERRET",
+     "prenom": "Charlène",
+     "agence": "Nantes"
+    },
+    {
+     "nom": "PERRIOT",
+     "prenom": "Aurélie",
+     "agence": "Vannes"
+    },
+    {
+     "nom": "PIET DE BEAUREPAIRE",
+     "prenom": "Clémence",
+     "agence": "Marseille"
+    },
+    {
+     "nom": "REFOUFI",
+     "prenom": "Adlane",
+     "agence": "Evry-Courcouronnes"
+    },
+    {
+     "nom": "ROBERT",
+     "prenom": "Vladimir",
+     "agence": "Dijon"
+    },
+    {
+     "nom": "RONGIER",
+     "prenom": "Thomas",
+     "agence": "Montpellier"
+    },
+    {
+     "nom": "SERY",
+     "prenom": "Juliette",
+     "agence": "Marseille"
+    },
+    {
+     "nom": "STABILE-HAMLIN",
+     "prenom": "Nathan",
+     "agence": "Montpellier"
+    },
+    {
+     "nom": "THEVENET",
+     "prenom": "Claire",
+     "agence": "Lyon"
+    },
+    {
+     "nom": "TINTELIN",
+     "prenom": "Gaëlle",
+     "agence": "Rennes"
+    },
+    {
+     "nom": "TOPER",
+     "prenom": "Matthieu",
+     "agence": "Nantes"
+    },
+    {
+     "nom": "VERNAY",
+     "prenom": "William",
+     "agence": "Annecy"
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "people": [
+    {
+     "nom": "ALLOUCHENE",
+     "prenom": "Salem",
+     "agence": "Torcy - Seine et Marne"
+    },
+    {
+     "nom": "BANIM",
+     "prenom": "Meghann",
+     "agence": "Caen"
+    },
+    {
+     "nom": "BEGLIUTI",
+     "prenom": "Christelle",
+     "agence": "Evry-Courcouronnes"
+    },
+    {
+     "nom": "BESSEAU",
+     "prenom": "Pauline",
+     "agence": "Marseille"
+    },
+    {
+     "nom": "BOYER",
+     "prenom": "François",
+     "agence": "Evry-Courcouronnes"
+    },
+    {
+     "nom": "CAUVIN MARY",
+     "prenom": "Marine",
+     "agence": "Evry-Courcouronnes"
+    },
+    {
+     "nom": "CHARLIER",
+     "prenom": "Myriam",
+     "agence": "Marseille"
+    },
+    {
+     "nom": "DUPRE",
+     "prenom": "Sullivan",
+     "agence": "Lille"
+    },
+    {
+     "nom": "FABRE",
+     "prenom": "Widner",
+     "agence": "Créteil"
+    },
+    {
+     "nom": "FRANZOSI",
+     "prenom": "Alexandre",
+     "agence": "Torcy - Seine et Marne"
+    },
+    {
+     "nom": "GEFFROY",
+     "prenom": "Delphine",
+     "agence": "Brest"
+    },
+    {
+     "nom": "GRANDCOIN",
+     "prenom": "Rizlaine",
+     "agence": "Torcy - Seine et Marne"
+    },
+    {
+     "nom": "GUIBAL",
+     "prenom": "Franck",
+     "agence": "Lyon"
+    },
+    {
+     "nom": "JOX-LEVY",
+     "prenom": "Marie",
+     "agence": "Lyon"
+    },
+    {
+     "nom": "LABOUREUR",
+     "prenom": "Guy",
+     "agence": "Lille"
+    },
+    {
+     "nom": "LAHOUTE",
+     "prenom": "Juliette",
+     "agence": "Nantes"
+    },
+    {
+     "nom": "LALLEMENT",
+     "prenom": "Rémi",
+     "agence": "Tours"
+    },
+    {
+     "nom": "LEFEVRE",
+     "prenom": "Laurent",
+     "agence": "La Rochelle"
+    },
+    {
+     "nom": "LEROUX-PEREZ",
+     "prenom": "Cléa",
+     "agence": "Rouen"
+    },
+    {
+     "nom": "LUCMARET",
+     "prenom": "Juliette",
+     "agence": "Bordeaux"
+    },
+    {
+     "nom": "MARC",
+     "prenom": "Nicolas",
+     "agence": "Toulouse"
+    },
+    {
+     "nom": "MASSON",
+     "prenom": "Charlène",
+     "agence": "Lyon"
+    },
+    {
+     "nom": "MENGUAL",
+     "prenom": "Dylan",
+     "agence": "Caen"
+    },
+    {
+     "nom": "METTE",
+     "prenom": "Julie",
+     "agence": "Caen"
+    },
+    {
+     "nom": "RENAU",
+     "prenom": "Brice",
+     "agence": "Torcy - Seine et Marne"
+    },
+    {
+     "nom": "ROMON",
+     "prenom": "Justine",
+     "agence": "Lille"
+    },
+    {
+     "nom": "SEMPOL",
+     "prenom": "François",
+     "agence": "Bordeaux"
+    },
+    {
+     "nom": "ZITOUNI",
+     "prenom": "Mourad",
+     "agence": "Evry-Courcouronnes"
+    }
+   ]
+  },
+  {
+   "n": 1,
+   "people": [
+    {
+     "nom": "AMOUROUX",
+     "prenom": "Estelle",
+     "agence": "Issy-les-Moulineaux"
+    },
+    {
+     "nom": "BARTHELET",
+     "prenom": "Julien",
+     "agence": "Evry-Courcouronnes"
+    },
+    {
+     "nom": "BEDUNEAU",
+     "prenom": "Quentin",
+     "agence": "Challans"
+    },
+    {
+     "nom": "BERTHE",
+     "prenom": "Manon",
+     "agence": "Levallois - Paris"
+    },
+    {
+     "nom": "BOUTANG",
+     "prenom": "Remi",
+     "agence": "Bassin Genevois - St Julien"
+    },
+    {
+     "nom": "BOUTANG",
+     "prenom": "Virginie",
+     "agence": "Bassin Genevois - St Julien"
+    },
+    {
+     "nom": "BUTTE",
+     "prenom": "Jérémie",
+     "agence": "Evry-Courcouronnes"
+    },
+    {
+     "nom": "CAMUS",
+     "prenom": "Brice",
+     "agence": "Torcy - Seine et Marne"
+    },
+    {
+     "nom": "DAVERNON",
+     "prenom": "Sandrine",
+     "agence": "Lyon"
+    },
+    {
+     "nom": "DE LEEUW",
+     "prenom": "May",
+     "agence": "Anglet"
+    },
+    {
+     "nom": "DESCOS",
+     "prenom": "Isabelle",
+     "agence": "Lyon"
+    },
+    {
+     "nom": "DUBBER",
+     "prenom": "Thomas",
+     "agence": "Vannes"
+    },
+    {
+     "nom": "ETIENNE",
+     "prenom": "Chloé",
+     "agence": "Rennes"
+    },
+    {
+     "nom": "FAURE",
+     "prenom": "Thibaut",
+     "agence": "Marseille"
+    },
+    {
+     "nom": "GHEERBRANT",
+     "prenom": "Cécilia",
+     "agence": "Issy-les-Moulineaux"
+    },
+    {
+     "nom": "GOTZALEK",
+     "prenom": "Antony",
+     "agence": "Nantes"
+    },
+    {
+     "nom": "GRAUSEM",
+     "prenom": "Sophie",
+     "agence": "Lyon"
+    },
+    {
+     "nom": "GUYONNET",
+     "prenom": "Sylvestre",
+     "agence": "Caen"
+    },
+    {
+     "nom": "IMBERT",
+     "prenom": "Bruce",
+     "agence": "Bassin Genevois - St Julien"
+    },
+    {
+     "nom": "JOUSSET",
+     "prenom": "Margot",
+     "agence": "Caen"
+    },
+    {
+     "nom": "LACROIX",
+     "prenom": "Marion",
+     "agence": "Marseille"
+    },
+    {
+     "nom": "LEDERGERBER",
+     "prenom": "Carole",
+     "agence": "Strasbourg"
+    },
+    {
+     "nom": "LESIMPLE",
+     "prenom": "Patricia",
+     "agence": "Bordeaux"
+    },
+    {
+     "nom": "LEVASSEUR",
+     "prenom": "Gaël",
+     "agence": "Vannes"
+    },
+    {
+     "nom": "MARTIN",
+     "prenom": "Jérémy",
+     "agence": "Bordeaux"
+    },
+    {
+     "nom": "MEILLER",
+     "prenom": "Ludivine",
+     "agence": "Anglet"
+    },
+    {
+     "nom": "MOHAMED",
+     "prenom": "Mehdi",
+     "agence": "Evry-Courcouronnes"
+    },
+    {
+     "nom": "PISCOPO",
+     "prenom": "Florian",
+     "agence": "Marseille"
+    },
+    {
+     "nom": "ROCHETEAU",
+     "prenom": "Chloé",
+     "agence": "Bordeaux"
+    },
+    {
+     "nom": "SPANU",
+     "prenom": "Florent",
+     "agence": "Lyon"
+    },
+    {
+     "nom": "VISSUZAINE",
+     "prenom": "Thierry",
+     "agence": "Grenoble"
+    },
+    {
+     "nom": "WASIM",
+     "prenom": "Hamaad",
+     "agence": "Le Raincy - Seine St Denis"
+    },
+    {
+     "nom": "WEISS",
+     "prenom": "Emilie",
+     "agence": "Strasbourg"
+    }
+   ]
+  }
+ ]
+}
