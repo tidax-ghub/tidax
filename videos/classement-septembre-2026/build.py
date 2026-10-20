@@ -8,6 +8,7 @@ Arbitrages validés avec la demandeuse (14/10/2026) :
 - BARAN Karolina : on retient la colonne « Retraitement » (4 ventes) ;
 - « Patricia LESIMPLE » est affichée « LESIMPLE Patricia » ;
 - uniquement l'onglet « Classement Septembre » (98 vendeurs).
+- (20/10/2026) dans chaque palier : tri par agence, puis par nom.
 
 Musique : Cosmonkey – Old Sneakers (droits fournis par Médicis), 188 BPM.
 Le morceau avance par cycles de 8 temps (U ≈ 2,553 s) ; toutes les scènes
@@ -18,6 +19,7 @@ démarrent sur un début de cycle ou de demi-cycle. Montage musical :
 import json
 import re
 import sys
+import unicodedata
 import warnings
 from collections import Counter
 from pathlib import Path
@@ -139,8 +141,13 @@ def main():
     tiers = {}
     for p in people:
         tiers.setdefault(p["ventes"], []).append(p)
-    for v in tiers.values():  # ex æquo : ordre alphabétique, aucun départage
-        v.sort(key=lambda p: (p["nom"], p["prenom"]))
+    # ex æquo, sans départage : regroupés par agence (ordre alphabétique),
+    # puis par nom et prénom ; accents et casse ignorés pour le tri
+    def fold(s):
+        return unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().casefold()
+
+    for v in tiers.values():
+        v.sort(key=lambda p: (fold(p["agence"]), fold(p["nom"]), fold(p["prenom"])))
 
     counts = Counter(p["ventes"] for p in people)
     stats = {

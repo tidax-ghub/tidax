@@ -119,21 +119,23 @@
       .crawl-win { position: absolute; left: var(--safe-x); right: var(--safe-x); top: 290px; bottom: 96px; overflow: hidden;
         -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 60px, #000 calc(100% - 70px), transparent 100%);
         mask-image: linear-gradient(to bottom, transparent 0, #000 60px, #000 calc(100% - 70px), transparent 100%); }
-      .crow { position: absolute; left: 0; top: 0; width: 832px; height: 104px; padding-left: 30px; opacity: 0; }
-      .crow::before { content: ""; position: absolute; left: 0; top: 10px; width: 9px; height: 58px; background: var(--orange); border-radius: 2px; }
+      .cgroup { position: absolute; left: 0; top: 0; width: 1728px; height: 74px; padding: 22px 0 0 30px; border-top: 2px solid rgba(255,255,255,0.18); opacity: 0; transform-origin: 50% 50%; }
+      .cgroup::before { content: ""; position: absolute; left: 0; top: 26px; width: 14px; height: 14px; background: var(--orange); border-radius: 3px; }
+      .cgroup span { display: block; width: 420px; font-size: 24px; font-weight: 700; letter-spacing: 0.14em; line-height: 1.25; text-transform: uppercase; }
+      .crow { position: absolute; left: 0; top: 0; width: 604px; height: 74px; padding: 6px 0 0 24px; opacity: 0; transform-origin: 0 50%; }
+      .crow::before { content: ""; position: absolute; left: 0; top: 17px; width: 7px; height: 40px; background: var(--orange); border-radius: 2px; }
       .crow .nm { white-space: nowrap; line-height: 1.2; }
       .crow .nm b { font-weight: 800; }
       .crow .nm em { font-style: normal; font-weight: 400; }
-      .crow .ag { font-size: 22px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.8; }
 
       /* ---------- outro ---------- */
       .outro-copy { position: absolute; left: 0; right: 0; top: 200px; text-align: center; }
-      .outro-title { font-weight: 800; font-size: 150px; line-height: 1.04; letter-spacing: -0.025em; }
+      .outro-title { font-weight: 800; font-size: 136px; line-height: 1.04; letter-spacing: -0.025em; }
       .outro-title .line { display: block; }
       .outro-title .y { color: var(--yellow); }
-      .o-circle { width: 300px; height: 300px; border-radius: 50%; background: var(--yellow); left: 120px; top: 110px; }
+      .o-circle { width: 250px; height: 250px; border-radius: 50%; background: var(--yellow); left: 70px; top: 470px; }
       .o-bar { right: 0; bottom: 160px; width: 620px; height: 60px; background: var(--orange); transform-origin: 100% 50%; }
-      .o-ring { width: 220px; height: 220px; border-radius: 50%; border: 12px solid var(--white); right: 210px; top: 150px; }
+      .o-ring { width: 200px; height: 200px; border-radius: 50%; border: 12px solid var(--white); right: 150px; top: 560px; }
       .o-tri { width: 170px; height: 170px; background: var(--orange); left: 230px; bottom: 120px; clip-path: polygon(0 0, 100% 100%, 0 100%); }
       .o-sq { width: 80px; height: 80px; background: var(--blue-deep); right: 420px; bottom: 300px; }
 
@@ -238,8 +240,8 @@
           <div class="shape o-sq" id="o-sq"></div>
           <div class="outro-copy">
             <div class="outro-title">
-              <span class="line" id="ot-1">Bravo à</span>
-              <span class="line y" id="ot-2">toute l’équipe</span>
+              <span class="line" id="ot-1">Bravo à toutes</span>
+              <span class="line y" id="ot-2">et à tous</span>
             </div>
             __LOGO_OUTRO__
           </div>
@@ -331,7 +333,6 @@
           tl.to("#hud-txt", { opacity: 0, duration: 0.15, ease: "power2.out" }, from);
           tl.to("#hud-txt", { opacity: 1, duration: 0.3, ease: "power2.out" }, to);
         };
-        const shakes = [];
         const bursts = [];
 
         // ---------- HUD ----------
@@ -462,12 +463,10 @@
           tl.fromTo(badge, { scale: 0, rotation: -200 }, { scale: 1, rotation: 0, duration: 0.8, ease: "hfBack" }, at + 2 * B);
           tl.fromTo(ring, { scale: 0.7, opacity: 1 }, { scale: 1.6, opacity: 0, duration: 0.9, ease: "hfOut" }, at + 2 * B + 0.15);
           tl.fromTo(shine, { x: -300 }, { x: 1800, duration: 1.1, ease: "hfInOut" }, at + 0.6);
-          shakes.push([at, 7]);
         });
         const stampAt = TOP + 4 * B + top.people.length * cardGap;
         if (top.people.length > 1) {
           tl.fromTo("#top-stamp", { scale: 2.6, rotation: -24, opacity: 0 }, { scale: 1, rotation: -6, opacity: 1, duration: 0.5, ease: "hfBack" }, stampAt);
-          shakes.push([stampAt + 0.1, 16]);
           bursts.push({ t: stampAt + 0.05, x: 1700, y: 360, n: 70, seed: 11 }, { t: stampAt + 0.05, x: 1700, y: 650, n: 70, seed: 23 });
           topCards.forEach((c, i) => tl.fromTo(c.querySelector(".shine"), { x: -300 }, { x: 1800, duration: 1.0, ease: "hfInOut", immediateRender: false }, stampAt + 0.2 + i * 0.12));
         } else $("top-stamp").style.display = "none";
@@ -569,27 +568,41 @@
 
         // ================= 5. DÉFILÉS =================
         const WIN_H = 1080 - 290 - 96;
-        const ROW_H = 104, COL_W = 832, COL_GAP = 64;
+        // regroupement par agence : l'agence à gauche, ses vendeurs sur 2 colonnes à droite
+        const AG_W = 470, NCOL_W = 604, NCOL_GAP = 40, LINE_H = 74, GROUP_GAP = 30;
         const crawls = crawlTiers.map((tier, ci) => {
           const start = ci === 0 ? T.crawlA : T.crawlB;
           const stop = ci === 0 ? T.crawlB : T.outro;
-          const rows = tier.people.map((p, k) => {
-            const r = h("div", "crow");
-            const size = fit((sz) => [[p.nom + " ", 800, sz], [p.prenom, 400, sz]], 50, COL_W - 50);
-            const nm = h("div", "nm", `<b>${esc(p.nom)}</b> <em>${esc(p.prenom)}</em>`);
-            nm.style.fontSize = size + "px";
-            r.append(nm, h("div", "ag", esc(p.agence)));
-            $("crawl-win").appendChild(r);
-            return { el: r, row: Math.floor(k / 2), col: k % 2, k };
+          const groups = [];
+          tier.people.forEach((p) => {
+            const g = groups[groups.length - 1];
+            if (g && g.agence === p.agence) g.people.push(p); else groups.push({ agence: p.agence, people: [p] });
           });
-          const nRows = Math.ceil(rows.length / 2);
+          const items = [];
+          let y = 0;
+          groups.forEach((g, gi) => {
+            const lab = h("div", "cgroup", `<span>${esc(g.agence)}</span>`);
+            $("crawl-win").appendChild(lab);
+            items.push({ el: lab, x: 0, y0: y, h: LINE_H, k: items.length });
+            g.people.forEach((p, j) => {
+              const r = h("div", "crow");
+              const size = fit((sz) => [[p.nom + " ", 800, sz], [p.prenom, 400, sz]], 46, NCOL_W - 40);
+              const nm = h("div", "nm", `<b>${esc(p.nom)}</b> <em>${esc(p.prenom)}</em>`);
+              nm.style.fontSize = size + "px";
+              r.appendChild(nm);
+              $("crawl-win").appendChild(r);
+              items.push({ el: r, x: AG_W + (j % 2) * (NCOL_W + NCOL_GAP), y0: y + 14 + Math.floor(j / 2) * LINE_H, h: LINE_H, k: items.length });
+            });
+            y += 14 + Math.ceil(g.people.length / 2) * LINE_H + GROUP_GAP;
+          });
+          const contentH = y - GROUP_GAP;
           const off0 = Math.round(WIN_H * 0.3); // les premiers noms entrent par le bas de la fenêtre
-          const dist = Math.max(0, nRows * ROW_H - WIN_H + 50 + off0);
+          const dist = Math.max(0, contentH - WIN_H + 130 + off0);
           // un cran adouci tous les 4 temps : le défilement « respire » avec la musique
           const t0 = start + 1.4, t1 = stop - 1.2, step = 4 * B, d = 1.15;
           const steps = [];
           for (let t = t0; t + d <= t1 + 1e-6; t += step) steps.push(t);
-          return { start, stop, rows, dist, steps, d, off0 };
+          return { start, stop, items, dist, steps, d, off0 };
         });
         function crawlFrame(t) {
           crawls.forEach((c) => {
@@ -597,26 +610,25 @@
             let s = 0;
             if (live) for (const tk of c.steps) s += eInOut(clamp((t - tk) / c.d));
             const off = c.off0 - c.dist * (c.steps.length ? s / c.steps.length : 0);
-            c.rows.forEach((r) => {
+            c.items.forEach((r) => {
               if (!live) { r.el.style.opacity = 0; return; }
-              const ein = eOut(clamp((t - (c.start + 0.1 + 0.07 * r.k)) / 0.8));
-              const eout = eIn(clamp((t - (c.stop - 0.65 + 0.02 * r.k)) / 0.5));
-              const y = r.row * ROW_H + off + (1 - ein) * 80 - eout * 180;
-              const rel = clamp((y + ROW_H / 2 - WIN_H / 2) / (WIN_H / 2), -1.3, 1.3);
+              const ein = eOut(clamp((t - (c.start + 0.1 + 0.05 * r.k)) / 0.8));
+              const eout = eIn(clamp((t - (c.stop - 0.65 + 0.015 * r.k)) / 0.5));
+              const y = r.y0 + off + (1 - ein) * 80 - eout * 180;
+              const rel = clamp((y + r.h / 2 - WIN_H / 2) / (WIN_H / 2), -1.3, 1.3);
               // bascule 3D seulement en bord de fenêtre : les noms restent bien droits au centre
               const rx = -Math.sign(rel) * Math.max(0, Math.abs(rel) - 0.55) * 45 + (1 - ein) * -60;
               const sc = 1 - 0.08 * Math.max(0, Math.abs(rel) - 0.55);
               const edge = clamp((1.15 - Math.abs(rel)) * 3);
-              r.el.style.transform = `perspective(1400px) translate3d(${r.col * (COL_W + COL_GAP)}px, ${y.toFixed(2)}px, 0) rotateX(${rx.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
+              r.el.style.transform = `perspective(1400px) translate3d(${r.x}px, ${y.toFixed(2)}px, 0) rotateX(${rx.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
               r.el.style.opacity = (ein * (1 - eout) * edge).toFixed(3);
               r.el.style.filter = eout > 0.01 ? `blur(${(eout * 8).toFixed(1)}px)` : "none";
             });
           });
         }
-        // le retour de la musique : flash + secousse
+        // le retour de la musique : flash
         tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.55, duration: 0.08, ease: "power2.out", immediateRender: false }, T.crawlB - 0.02);
         tl.to("#flash", { opacity: 0, duration: 0.6, ease: "power2.out" }, T.crawlB + 0.08);
-        shakes.push([T.crawlB, 14]);
 
         // ================= 6. OUTRO =================
         const O = T.outro;
@@ -626,7 +638,6 @@
         tl.to(subs[subs.length - 1], { opacity: 0, y: -20, duration: 0.3, ease: "hfIn" }, O - 0.5);
         tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.5, duration: 0.08, ease: "power2.out", immediateRender: false }, O - 0.02);
         tl.to("#flash", { opacity: 0, duration: 0.6, ease: "power2.out" }, O + 0.08);
-        shakes.push([O, 14]);
         [["#o-circle", { scale: 0 }], ["#o-ring", { scale: 2.4 }], ["#o-bar", { scaleX: 0 }], ["#o-tri", { x: -200, y: 200, rotation: -60 }], ["#o-sq", { scale: 0, rotation: 135 }]]
           .forEach(([s, f], i) => tl.fromTo(s, Object.assign({ opacity: 0 }, f), { opacity: 1, scale: 1, scaleX: 1, x: 0, y: 0, rotation: 0, duration: 1.0, ease: "hfOut" }, O + 0.05 + i * 0.07));
         const ot1 = chars($("ot-1")), ot2 = chars($("ot-2"));
@@ -704,20 +715,9 @@
             }
           }
         }
-        const stage = $("stage");
-        function camera(t) {
-          let sx = 0, sy = 0;
-          for (const [st, amp] of shakes) {
-            const a = t - st; if (a < 0 || a > 0.5) continue;
-            const dmp = amp * Math.exp(-a * 9);
-            sx += dmp * Math.sin(a * 83); sy += dmp * Math.cos(a * 71);
-          }
-          const sc = 1 + 0.009 * beatEnv(t) * energy(t);
-          stage.style.transform = `translate(${sx.toFixed(2)}px, ${sy.toFixed(2)}px) scale(${sc.toFixed(5)})`;
-        }
         function frame(t) {
           const tt = Math.min(t, FREEZE);
-          drawDots(tt); drawConfetti(tt); camera(tt); crawlFrame(tt);
+          drawDots(tt); drawConfetti(tt); crawlFrame(tt);
         }
         const clock = { t: 0 };
         tl.fromTo(clock, { t: 0 }, { t: END, duration: END, ease: "none", onUpdate: () => frame(clock.t) }, 0);
