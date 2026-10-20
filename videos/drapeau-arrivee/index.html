@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: transparent;
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      #flag {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.35));
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="4"
+      data-width="1920"
+      data-height="1080"
+    >
+      <canvas id="flag" class="clip" data-start="0" data-duration="4" data-track-index="0" width="1920" height="1080"></canvas>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const canvas = document.getElementById("flag");
+      const ctx = canvas.getContext("2d");
+      const TAU = Math.PI * 2;
+
+      // Toutes les fréquences sont des multiples de 1/4 s → boucle parfaite sur 4 s.
+      const PIVOT = { x: 760, y: 900 }; // la main
+      const POLE_LEN = 620;
+      const POLE_TAIL = 90;
+      const W = 660;
+      const H = 440;
+      const COLS = 8;
+      const ROWS = 6;
+      const SUB = 6;
+
+      const swing = (t) => 0.26 * Math.sin(TAU * 1 * t);
+
+      function flagPoint(u, v, t, T, o, d) {
+        const lag = swing(t - 0.12);
+        const phase = TAU * 1.4 * u - TAU * 2 * t + 0.7 * v;
+        const amp = 8 + 52 * u;
+        const x = u * W * (1 - 0.07 * (0.5 + 0.5 * Math.sin(phase + 1.2)));
+        const y = v * H + amp * Math.sin(phase) + u * W * 0.55 * lag;
+        return {
+          x: T.x + x * o.x + y * d.x,
+          y: T.y + x * o.y + y * d.y,
+          shade: 0.72 + 0.28 * Math.cos(phase),
+        };
+      }
+
+      function draw(t) {
+        ctx.clearRect(0, 0, 1920, 1080);
+        const th = swing(t);
+        const up = { x: Math.sin(th), y: -Math.cos(th) };
+        const d = { x: -up.x, y: -up.y };
+        const o = { x: Math.cos(th), y: Math.sin(th) };
+        const T = { x: PIVOT.x + up.x * POLE_LEN, y: PIVOT.y + up.y * POLE_LEN };
+
+        // Tissu
+        const nu = COLS * SUB;
+        const nv = ROWS * SUB;
+        const grid = [];
+        for (let j = 0; j <= nv; j++) {
+          const row = [];
+          for (let i = 0; i <= nu; i++) row.push(flagPoint(i / nu, j / nv, t, T, o, d));
+          grid.push(row);
+        }
+        for (let j = 0; j < nv; j++) {
+          for (let i = 0; i < nu; i++) {
+            const a = grid[j][i], b = grid[j][i + 1], c = grid[j + 1][i + 1], e = grid[j + 1][i];
+            const dark = (Math.floor(i / SUB) + Math.floor(j / SUB)) % 2 === 0;
+            const s = (a.shade + c.shade) / 2;
+            const l = dark ? Math.round(18 + 34 * s) : Math.round(150 + 105 * s);
+            const col = `rgb(${l},${l},${l})`;
+            ctx.fillStyle = col;
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.lineTo(c.x, c.y);
+            ctx.lineTo(e.x, e.y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+          }
+        }
+
+        // Mât
+        const B = { x: PIVOT.x - up.x * POLE_TAIL, y: PIVOT.y - up.y * POLE_TAIL };
+        const nx = o.x * 11, ny = o.y * 11;
+        const g = ctx.createLinearGradient(T.x - nx, T.y - ny, T.x + nx, T.y + ny);
+        g.addColorStop(0, "#8d939b");
+        g.addColorStop(0.45, "#f4f6f8");
+        g.addColorStop(1, "#5f656d");
+        ctx.lineCap = "round";
+        ctx.strokeStyle = g;
+        ctx.lineWidth = 22;
+        ctx.beginPath();
+        ctx.moveTo(B.x, B.y);
+        ctx.lineTo(T.x + up.x * 6, T.y + up.y * 6);
+        ctx.stroke();
+
+        // Poignée
+        ctx.strokeStyle = "#1c1c1f";
+        ctx.lineWidth = 34;
+        ctx.beginPath();
+        ctx.moveTo(B.x, B.y);
+        ctx.lineTo(PIVOT.x + up.x * 70, PIVOT.y + up.y * 70);
+        ctx.stroke();
+
+        // Pommeau
+        const K = { x: T.x + up.x * 26, y: T.y + up.y * 26 };
+        const kg = ctx.createRadialGradient(K.x - 8, K.y - 8, 2, K.x, K.y, 24);
+        kg.addColorStop(0, "#fff3c4");
+        kg.addColorStop(1, "#d39a1f");
+        ctx.fillStyle = kg;
+        ctx.beginPath();
+        ctx.arc(K.x, K.y, 22, 0, TAU);
+        ctx.fill();
+      }
+
+      const clock = { t: 0 };
+      tl.fromTo(clock, { t: 0 }, { t: 4, duration: 4, ease: "none", onUpdate: () => draw(clock.t) }, 0);
+
+      window.__timelines["main"] = tl;
+      draw(0);
+      tl.seek(0);
+    </script>
+  </body>
+</html>
