@@ -1,2 +1,4 @@
 .hyperframes/
 renders/*.mov
+renders/*-png/
+renders/*.zip
