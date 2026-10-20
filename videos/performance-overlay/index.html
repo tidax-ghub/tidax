@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: transparent;
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      #chart {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: visible;
+        filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.35));
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="6"
+      data-width="1920"
+      data-height="1080"
+    >
+      <svg id="chart" class="clip" data-start="0" data-duration="6" data-track-index="0" viewBox="0 0 1920 1080">
+        <defs>
+          <linearGradient id="barWhite" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffffff" stop-opacity="0.95" />
+            <stop offset="1" stop-color="#ffffff" stop-opacity="0.55" />
+          </linearGradient>
+          <linearGradient id="barOrange" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ff8a5c" />
+            <stop offset="1" stop-color="#ea653d" />
+          </linearGradient>
+          <radialGradient id="glow">
+            <stop offset="0" stop-color="#ffb08f" stop-opacity="0.9" />
+            <stop offset="1" stop-color="#ea653d" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <!-- grille -->
+        <g id="grid" stroke="#ffffff" stroke-opacity="0.18" stroke-width="2" stroke-dasharray="6 12">
+          <line class="gl" x1="430" y1="690" x2="1530" y2="690" />
+          <line class="gl" x1="430" y1="560" x2="1530" y2="560" />
+          <line class="gl" x1="430" y1="430" x2="1530" y2="430" />
+          <line class="gl" x1="430" y1="300" x2="1530" y2="300" />
+        </g>
+
+        <!-- barres -->
+        <g id="bars">
+          <rect class="bar" x="460" y="680" width="100" height="140" rx="14" fill="url(#barWhite)" />
+          <rect class="bar" x="630" y="610" width="100" height="210" rx="14" fill="url(#barWhite)" />
+          <rect class="bar" x="800" y="630" width="100" height="190" rx="14" fill="url(#barWhite)" />
+          <rect class="bar" x="970" y="520" width="100" height="300" rx="14" fill="url(#barWhite)" />
+          <rect class="bar" x="1140" y="430" width="100" height="390" rx="14" fill="url(#barWhite)" />
+          <rect class="bar" x="1310" y="300" width="100" height="520" rx="14" fill="url(#barOrange)" />
+        </g>
+
+        <!-- axe -->
+        <line id="axis" x1="420" y1="822" x2="1540" y2="822" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+
+        <!-- halo à la pointe -->
+        <circle id="burst" cx="0" cy="0" r="120" fill="url(#glow)" opacity="0" />
+        <circle id="ring" cx="0" cy="0" r="60" fill="none" stroke="#ea653d" stroke-width="6" opacity="0" />
+
+        <!-- courbe + flèche -->
+        <path
+          id="trend"
+          d="M 400 760 L 510 600 L 680 530 L 850 560 L 1020 420 L 1190 330 L 1360 200 L 1560 110"
+          fill="none"
+          stroke="#ea653d"
+          stroke-width="18"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <g id="head">
+          <g id="headShape"><polygon points="-34,-36 44,0 -34,36 -18,0" fill="#ea653d" stroke="#ea653d" stroke-width="8" stroke-linejoin="round" /></g>
+        </g>
+
+        <!-- étincelles -->
+        <g id="sparksPos"><g id="sparks" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0">
+          <line x1="0" y1="-70" x2="0" y2="-100" />
+          <line x1="60" y1="-40" x2="85" y2="-58" />
+          <line x1="70" y1="20" x2="100" y2="28" />
+          <line x1="-60" y1="-40" x2="-85" y2="-58" />
+        </g></g>
+      </svg>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const path = document.getElementById("trend");
+      const head = document.getElementById("head");
+      const len = path.getTotalLength();
+      path.style.strokeDasharray = len;
+
+      const draw = { p: 0 };
+      function placeHead() {
+        const l = Math.max(2, draw.p * len);
+        const pt = path.getPointAtLength(l);
+        const prev = path.getPointAtLength(l - 2);
+        const angle = (Math.atan2(pt.y - prev.y, pt.x - prev.x) * 180) / Math.PI;
+        path.style.strokeDashoffset = len - l;
+        path.style.visibility = draw.p > 0.001 ? "visible" : "hidden";
+        head.setAttribute("transform", `translate(${pt.x} ${pt.y}) rotate(${angle})`);
+      }
+      const end = path.getPointAtLength(len);
+      gsap.set(["#burst", "#ring"], { attr: { cx: end.x, cy: end.y } });
+      document.getElementById("sparksPos").setAttribute("transform", `translate(${end.x} ${end.y})`);
+
+      // 0 → 0.6 : axe + grille
+      tl.fromTo("#axis", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.6, ease: "power3.out" }, 0);
+      tl.fromTo(".gl", { opacity: 0, scaleX: 0.6, transformOrigin: "50% 50%" }, { opacity: 1, scaleX: 1, duration: 0.6, stagger: 0.08, ease: "power2.out" }, 0.15);
+
+      // 0.4 → 1.9 : barres qui montent
+      tl.fromTo(
+        ".bar",
+        { scaleY: 0, transformOrigin: "50% 100%" },
+        { scaleY: 1, duration: 0.7, stagger: 0.16, ease: "back.out(1.6)" },
+        0.4
+      );
+
+      // 1.3 → 3.3 : la courbe grimpe, la flèche suit
+      tl.fromTo("#headShape", { opacity: 0, scale: 0.4, svgOrigin: "0 0" }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, 1.3);
+      tl.fromTo(draw, { p: 0 }, { p: 1, duration: 2, ease: "power2.inOut", onUpdate: placeHead }, 1.3);
+
+      // 3.3 : impact à la pointe
+      tl.fromTo("#burst", { opacity: 0, scale: 0.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1.2, duration: 0.35, ease: "power2.out" }, 3.25);
+      tl.to("#burst", { opacity: 0.35, scale: 1, duration: 0.8, ease: "power2.inOut" }, 3.6);
+      tl.fromTo("#ring", { opacity: 1, scale: 0.4, transformOrigin: "50% 50%" }, { opacity: 0, scale: 2.4, duration: 0.8, ease: "power2.out", immediateRender: false }, 3.3);
+      tl.fromTo("#sparks", { opacity: 0, scale: 0.5, svgOrigin: "0 0" }, { opacity: 1, scale: 1.15, duration: 0.3, ease: "back.out(2)" }, 3.3);
+      tl.to("#sparks", { opacity: 0, scale: 1.4, duration: 0.5, ease: "power1.in" }, 3.7);
+      tl.to("#bars .bar:last-child", { scaleY: 1.06, duration: 0.25, yoyo: true, repeat: 1, ease: "power2.out" }, 3.3);
+
+      // 4.2 → 6 : tenue vivante
+      tl.to("#burst", { opacity: 0.6, scale: 1.15, duration: 0.9, yoyo: true, repeat: 1, ease: "sine.inOut" }, 4.4);
+
+      window.__timelines["main"] = tl;
+      placeHead();
+      tl.seek(0);
+    </script>
+  </body>
+</html>
