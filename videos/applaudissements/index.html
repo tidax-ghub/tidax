@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: transparent;
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      #scene {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: visible;
+        filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.3));
+      }
+      .skin {
+        fill: #ffc94a;
+        stroke: #e39a2b;
+        stroke-width: 4;
+        stroke-linejoin: round;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="4"
+      data-width="1920"
+      data-height="1080"
+    >
+      <svg id="scene" class="clip" data-start="0" data-duration="4" data-track-index="0" viewBox="0 0 1920 1080">
+        <defs>
+          <g id="hand">
+            <!-- pouce -->
+            <rect class="skin" x="-15" y="-92" width="32" height="100" rx="16" transform="translate(44 -58) rotate(36)" />
+            <!-- paume -->
+            <rect class="skin" x="-56" y="-162" width="112" height="150" rx="34" />
+            <!-- doigts -->
+            <rect class="skin" x="-56" y="-222" width="28" height="100" rx="14" />
+            <rect class="skin" x="-28" y="-248" width="28" height="126" rx="14" />
+            <rect class="skin" x="0" y="-258" width="28" height="136" rx="14" />
+            <rect class="skin" x="28" y="-240" width="28" height="118" rx="14" />
+            <rect x="-53.5" y="-140" width="107" height="125" fill="#ffc94a" />
+            <!-- pli de la paume -->
+            <path d="M -30 -70 Q 0 -52 30 -76" fill="none" stroke="#e39a2b" stroke-width="4" stroke-linecap="round" />
+            <!-- manche de costume -->
+            <polygon points="-52,8 52,8 66,150 -66,150" fill="#1f2a44" />
+            <polygon points="-52,8 52,8 56,40 -56,40" fill="#2b3a5c" />
+            <!-- poignet de chemise -->
+            <rect x="-54" y="-22" width="108" height="36" rx="7" fill="#ffffff" stroke="#d9dde3" stroke-width="2" />
+            <circle cx="32" cy="-4" r="7" fill="#ea653d" />
+          </g>
+        </defs>
+
+        <g transform="translate(960 560) scale(1.3) translate(-960 -560)">
+        <!-- traits d'impact -->
+        <g id="burstPos" transform="translate(960 420)">
+          <g id="burst" stroke="#ea653d" stroke-width="12" stroke-linecap="round" opacity="0">
+            <line x1="-104" y1="-38" x2="-160" y2="-58" />
+            <line x1="-72" y1="-86" x2="-108" y2="-134" />
+            <line x1="0" y1="-112" x2="0" y2="-172" />
+            <line x1="72" y1="-86" x2="108" y2="-134" />
+            <line x1="104" y1="-38" x2="160" y2="-58" />
+          </g>
+        </g>
+
+        <!-- étincelles -->
+        <g id="sparkPos" transform="translate(960 420)">
+          <g id="sparks" opacity="0">
+            <path class="spark" d="M0,-16 L4,-4 L16,0 L4,4 L0,16 L-4,4 L-16,0 L-4,-4 Z" fill="#ffd166" transform="translate(-190 -130)" />
+            <path class="spark" d="M0,-16 L4,-4 L16,0 L4,4 L0,16 L-4,4 L-16,0 L-4,-4 Z" fill="#ea653d" transform="translate(190 -130)" />
+            <path class="spark" d="M0,-12 L3,-3 L12,0 L3,3 L0,12 L-3,3 L-12,0 L-3,-3 Z" fill="#ffffff" transform="translate(-120 -200)" />
+            <path class="spark" d="M0,-12 L3,-3 L12,0 L3,3 L0,12 L-3,3 L-12,0 L-3,-3 Z" fill="#ffd166" transform="translate(130 -205)" />
+            <circle r="7" fill="#ea653d" cx="-215" cy="-40" />
+            <circle r="7" fill="#ffffff" cx="215" cy="-45" />
+          </g>
+        </g>
+
+        <!-- mains -->
+        <g id="hands">
+          <g transform="translate(870 720) scale(-1 1)"><g id="handL"><use href="#hand" /></g></g>
+          <g transform="translate(1050 720)"><g id="handR"><use href="#hand" /></g></g>
+        </g>
+        </g>
+      </svg>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // Pose ouverte / pose « clap » (rotation autour du poignet, valeurs miroir via scale(-1))
+      const OPEN = { rotation: 24, x: 0, y: 0 };
+      const SHUT = { rotation: -3, x: -30, y: -6 };
+      const PERIOD = 0.5;
+      const CLOSE = 0.14;
+      const COUNT = 8; // 8 × 0,5 s = 4 s → boucle parfaite
+
+      gsap.set(["#handL", "#handR"], { ...OPEN, svgOrigin: "0 0" });
+
+      for (let i = 0; i < COUNT; i++) {
+        const t0 = i * PERIOD;
+        const hit = t0 + CLOSE;
+        tl.fromTo(["#handL", "#handR"], { ...OPEN }, { ...SHUT, duration: CLOSE, ease: "power3.in", immediateRender: false }, t0);
+        tl.fromTo(["#handL", "#handR"], { ...SHUT }, { ...OPEN, duration: PERIOD - CLOSE, ease: "power2.out", immediateRender: false }, hit);
+
+        // petit rebond de l'ensemble
+        tl.fromTo("#hands", { y: 0 }, { y: 10, duration: 0.06, ease: "power2.out", immediateRender: false }, hit);
+        tl.fromTo("#hands", { y: 10 }, { y: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, hit + 0.06);
+
+        // traits d'impact (léger décalage de rotation d'un clap à l'autre)
+        const tilt = i % 2 === 0 ? -6 : 6;
+        tl.fromTo(
+          "#burst",
+          { opacity: 1, scale: 0.6, rotation: tilt, svgOrigin: "0 0" },
+          { opacity: 0, scale: 1.25, rotation: tilt, duration: 0.3, ease: "power2.out", immediateRender: false },
+          hit
+        );
+        tl.fromTo(
+          "#sparks",
+          { opacity: 1, scale: 0.5, rotation: -tilt * 2, svgOrigin: "0 0" },
+          { opacity: 0, scale: 1.3, rotation: tilt * 2, duration: 0.34, ease: "power1.out", immediateRender: false },
+          hit
+        );
+      }
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
