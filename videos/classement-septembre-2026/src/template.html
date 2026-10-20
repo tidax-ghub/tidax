@@ -435,7 +435,7 @@
         tl.fromTo("#top-kicker", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: "hfOut" }, TOP + 0.35);
         charIn(chars($("top-title")), TOP + 0.4);
         const topCards = [];
-        const cardGap = top.people.length > 2 ? 4 * B : 8 * B;
+        const cardGap = top.people.length > 2 ? 4 * B : 6 * B;
         top.people.forEach((p, i) => {
           const c = h("div", "top-card");
           const bar = h("div", "bar");

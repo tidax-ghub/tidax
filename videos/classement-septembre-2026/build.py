@@ -30,6 +30,7 @@ warnings.filterwarnings("ignore")
 HERE = Path(__file__).resolve().parent
 
 NAME_FIXES = {"Patricia LESIMPLE": "LESIMPLE Patricia"}
+TOTAL_VENTES_MOIS = 263
 
 # ---------- grille musicale ----------
 BEAT = 0.3191489410201198
@@ -63,11 +64,11 @@ T = {
     "intro": 0.0,
     "figures": r(2 * U),  # arrivée de la partie A
     "top": r(4.5 * U),
-    "t6": r(8.5 * U),
-    "t5": r(10.5 * U),
-    "t4": r(12.5 * U),
-    "t3": r(15 * U),
-    "t3page2": r(17 * U),
+    "t6": r(7.5 * U),  # top écourté (3 cycles au lieu de 4)
+    "t5": r(9 * U),  # 6 ventes écourté (1,5 cycle au lieu de 2)
+    "t4": r(11 * U),
+    "t3": r(14 * U),  # le temps gagné revient aux 4 et 3 ventes
+    "t3page2": r(16.5 * U),
     "crawlA": r(19 * U),  # pont calme du morceau
     "crawlB": r(26 * U),  # retour de la partie B (drop)
     "outro": r(37 * U),
@@ -152,7 +153,9 @@ def main():
     counts = Counter(p["ventes"] for p in people)
     stats = {
         "count": len(people),
-        "total": sum(p["ventes"] for p in people),
+        # total du mois imposé par Médicis (20/10/2026) : 263 ventes. Il dépasse la
+        # somme du classement (225), qui ne compte que les 98 vendeurs classés.
+        "total": TOTAL_VENTES_MOIS,
         "max": max(counts),
     }
     data = {
@@ -198,7 +201,8 @@ def main():
     print("Décompte de contrôle")
     for n in sorted(tiers, reverse=True):
         print(f"  {n} vente{'s' if n > 1 else ''} : {len(tiers[n])}")
-    print(f"  total vendeurs : {stats['count']} | total ventes : {stats['total']} | max : {stats['max']}")
+    print(f"  total vendeurs : {stats['count']} | ventes du classement : {sum(p['ventes'] for p in people)}"
+          f" | total affiché : {stats['total']} | max : {stats['max']}")
     print(f"  durée vidéo : {T['end']} s")
 
 

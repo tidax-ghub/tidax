@@ -154,7 +154,7 @@ place(sfx, whoosh(0.9, True, 150, 9000), TOP - 0.9, 0.24)
 place(sfx, impact(1.0), TOP, 0.3)
 # top
 top = D["tiers"][0]["people"]
-gap = 4 * B if len(top) > 2 else 8 * B
+gap = 4 * B if len(top) > 2 else 6 * B
 for i in range(len(top)):
     at = TOP + 4 * B + i * gap
     place(sfx, impact(0.6), at, 0.18)
