@@ -62,13 +62,12 @@ def r(x):
 # Découpage temporel (secondes vidéo), en cycles U depuis le début de la vidéo.
 T = {
     "intro": 0.0,
-    "figures": r(2 * U),  # arrivée de la partie A
-    "top": r(4.5 * U),
-    "t6": r(7.5 * U),  # top écourté (3 cycles au lieu de 4)
-    "t5": r(9 * U),  # 6 ventes écourté (1,5 cycle au lieu de 2)
-    "t4": r(11 * U),
-    "t3": r(14 * U),  # le temps gagné revient aux 4 et 3 ventes
-    "t3page2": r(16.5 * U),
+    "figures": r(2 * U),  # arrivée de la partie A (fin de l'intro)
+    "top": r(2 * U),  # 22/10/2026 : écran des chiffres supprimé, le top suit l'intro
+    "t6": r(5 * U),  # top : 3 cycles
+    "t5": r(6.5 * U),  # 6 ventes : 1,5 cycle
+    "t4": r(8.5 * U),
+    "t3": r(11.5 * U),  # 3 ventes : défilé comme les 2 et 1 vente (7,5 cycles)
     "crawlA": r(19 * U),  # pont calme du morceau
     "crawlB": r(26 * U),  # retour de la partie B (drop)
     "outro": r(37 * U),
@@ -167,12 +166,12 @@ def main():
             for n in sorted(tiers, reverse=True)
         ],
     }
-    assert len(data["tiers"]) == 7, "la mise en scène attend 7 paliers (top, 4 écrans, 2 défilés)"
+    assert len(data["tiers"]) == 7, "la mise en scène attend 7 paliers (top, 3 écrans, 3 défilés)"
     (HERE / "data.json").write_text(json.dumps(data, ensure_ascii=False, indent=1))
     data["beats"] = video_beats()
 
-    mids = [d["n"] for d in data["tiers"][1:5]]
-    bounds = [T["t6"], T["t5"], T["t4"], T["t3"], T["crawlA"]]
+    mids = [d["n"] for d in data["tiers"][1:4]]
+    bounds = [T["t6"], T["t5"], T["t4"], T["t3"]]
     sections = "\n".join(
         f'        <section id="s-tier-{n}" class="clip scene" data-start="{bounds[i]}" '
         f'data-duration="{r(bounds[i + 1] - bounds[i] + 0.4)}" data-track-index="1"></section>'
@@ -188,10 +187,9 @@ def main():
     for k, v in T.items():
         repl[f"__T_{k.upper()}__"] = str(v)
     repl["__D_INTRO__"] = str(r(T["figures"] + 0.7))
-    repl["__D_FIGURES__"] = str(r(T["top"] - T["figures"]))
     repl["__D_TOP__"] = str(r(T["t6"] - T["top"] + 0.1))
     repl["__D_TH__"] = str(r(T["outro"] + 0.3 - T["t6"]))
-    repl["__D_CRAWL__"] = str(r(T["outro"] + 0.3 - T["crawlA"]))
+    repl["__D_CRAWL__"] = str(r(T["outro"] + 0.3 - T["t3"]))
     repl["__D_OUTRO__"] = str(r(T["end"] - T["outro"]))
     for k, v in sorted(repl.items(), key=lambda kv: -len(kv[0])):
         html = html.replace(k, v)

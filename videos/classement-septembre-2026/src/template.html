@@ -78,8 +78,17 @@
         -webkit-text-stroke: 5px rgba(255,255,255,0.18); transform-origin: 50% 50%; }
       .beam { position: absolute; top: -300px; width: 300px; height: 1700px; background: linear-gradient(to bottom, rgba(255,255,255,0.16), rgba(255,255,255,0)); transform-origin: 50% 0; }
       .beam-1 { left: 420px; } .beam-2 { left: 1260px; }
-      .top-cards { position: absolute; left: 0; right: 0; top: 230px; display: flex; flex-direction: column; gap: 40px; }
-      .top-card { position: relative; display: flex; align-items: center; height: 250px; padding: 0 60px 0 76px; background: rgba(27,55,102,0.72); border-radius: 18px; overflow: hidden; }
+      .top-cards { position: absolute; left: 0; right: 0; top: 268px; display: flex; flex-direction: column; gap: 28px; }
+      .top-head { position: absolute; left: 0; top: -10px; display: flex; align-items: center; gap: 40px; height: 250px; }
+      .trophy-wrap { position: relative; width: 220px; height: 250px; flex: none; }
+      .trophy { position: absolute; left: 0; top: 0; width: 220px; height: 250px; overflow: visible; }
+      .rays { position: absolute; left: -170px; top: -155px; width: 560px; height: 560px; border-radius: 50%;
+        background: repeating-conic-gradient(rgba(226,222,62,0.30) 0deg 9deg, rgba(226,222,62,0) 9deg 24deg);
+        -webkit-mask-image: radial-gradient(circle, #000 18%, transparent 68%); mask-image: radial-gradient(circle, #000 18%, transparent 68%); }
+      .top-big { font-weight: 800; font-size: 170px; line-height: 0.95; letter-spacing: -0.03em; white-space: nowrap; }
+      .top-big .n8 { display: inline-block; color: var(--yellow); font-weight: 900; margin-right: 34px; transform-origin: 50% 60%; }
+      .top-sub { font-weight: 700; font-size: 44px; letter-spacing: 0.32em; text-transform: uppercase; margin-top: 10px; }
+      .top-card { position: relative; display: flex; align-items: center; height: 222px; padding: 0 60px 0 76px; background: rgba(27,55,102,0.72); border-radius: 18px; overflow: hidden; }
       .top-card .bar { position: absolute; left: 0; top: 0; width: 22px; height: 100%; background: var(--orange); transform-origin: 50% 100%; }
       .shine { position: absolute; top: -40px; left: 0; width: 220px; height: 340px; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.22), rgba(255,255,255,0)); }
       .top-txt { flex: 1; position: relative; }
@@ -87,12 +96,12 @@
       .top-name b { font-weight: 800; }
       .top-name em { font-style: normal; font-weight: 400; }
       .top-ag { font-size: 34px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 8px; opacity: 0.88; }
-      .top-badge-wrap { position: relative; width: 200px; height: 200px; }
+      .top-badge-wrap { position: relative; width: 184px; height: 184px; }
       .top-ring { position: absolute; inset: 0; border-radius: 50%; border: 8px solid var(--orange); }
       .top-badge { position: absolute; inset: 0; border-radius: 50%; background: var(--yellow); color: var(--blue-ink); display: flex; flex-direction: column; align-items: center; justify-content: center; }
-      .top-badge b { font-weight: 900; font-size: 112px; line-height: 0.9; }
+      .top-badge b { font-weight: 900; font-size: 104px; line-height: 0.9; }
       .top-badge span { font-weight: 700; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; }
-      .stamp { position: absolute; right: 0; top: 0; display: inline-block; padding: 14px 28px; border: 5px solid var(--orange); color: var(--white); background: var(--blue-ink);
+      .stamp { position: absolute; right: 0; top: 40px; display: inline-block; padding: 14px 28px; border: 5px solid var(--orange); color: var(--white); background: var(--blue-ink);
         font-weight: 800; font-size: 40px; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 10px; }
 
       /* ---------- en-tête des paliers (persistant) ---------- */
@@ -130,13 +139,14 @@
 
       /* ---------- outro ---------- */
       .outro-copy { position: absolute; left: 0; right: 0; top: 200px; text-align: center; }
-      .outro-title { font-weight: 800; font-size: 136px; line-height: 1.04; letter-spacing: -0.025em; }
+      .outro-title { font-weight: 800; font-size: 120px; line-height: 1.04; letter-spacing: -0.025em; }
+      .outro-title #ot-1 { font-size: 190px; line-height: 1; }
       .outro-title .line { display: block; }
       .outro-title .y { color: var(--yellow); }
-      .o-circle { width: 250px; height: 250px; border-radius: 50%; background: var(--yellow); left: 70px; top: 470px; }
+      .o-circle { width: 250px; height: 250px; border-radius: 50%; background: var(--yellow); left: 70px; top: 600px; }
       .o-bar { right: 0; bottom: 160px; width: 620px; height: 60px; background: var(--orange); transform-origin: 100% 50%; }
       .o-ring { width: 200px; height: 200px; border-radius: 50%; border: 12px solid var(--white); right: 150px; top: 560px; }
-      .o-tri { width: 170px; height: 170px; background: var(--orange); left: 230px; bottom: 120px; clip-path: polygon(0 0, 100% 100%, 0 100%); }
+      .o-tri { width: 170px; height: 170px; background: var(--orange); left: 380px; bottom: 110px; clip-path: polygon(0 0, 100% 100%, 0 100%); }
       .o-sq { width: 80px; height: 80px; background: var(--blue-deep); right: 420px; bottom: 300px; }
 
       /* ---------- effets ---------- */
@@ -195,21 +205,32 @@
           <div class="shape g-circle" id="g-circle"></div>
         </section>
 
-        <section id="s-figures" class="clip scene" data-start="__T_FIGURES__" data-duration="__D_FIGURES__" data-track-index="1">
-          <div class="content">
-            <div class="kicker" id="fg-kicker">Septembre 2026</div>
-            <div class="h2" id="fg-title">Le mois en chiffres</div>
-            <div class="stats" id="stats"></div>
-          </div>
-        </section>
 
         <section id="s-top" class="clip scene" data-start="__T_TOP__" data-duration="__D_TOP__" data-track-index="1">
           <div class="beam beam-1" id="beam-1"></div>
           <div class="beam beam-2" id="beam-2"></div>
           <div class="top-bg8" id="top-bg8" data-layout-ignore aria-hidden="true"></div>
           <div class="content">
-            <div class="kicker" id="top-kicker">Top du classement</div>
-            <div class="h2" id="top-title"></div>
+            <div class="top-head">
+              <div class="trophy-wrap" id="trophy-wrap">
+                <div class="rays" id="rays"></div>
+                <svg class="trophy" id="trophy" viewBox="0 0 200 230" aria-hidden="true">
+                  <path d="M52 40 H24 C15 40 11 46 11 55 C11 86 35 106 61 110" fill="none" stroke="#e2de3e" stroke-width="13" stroke-linecap="round"/>
+                  <path d="M148 40 H176 C185 40 189 46 189 55 C189 86 165 106 139 110" fill="none" stroke="#e2de3e" stroke-width="13" stroke-linecap="round"/>
+                  <path d="M44 20 H156 V70 C156 118 130 146 100 146 C70 146 44 118 44 70 Z" fill="#e2de3e"/>
+                  <rect x="40" y="12" width="120" height="14" rx="7" fill="#e2de3e"/>
+                  <path d="M60 34 V70 C60 98 71 118 85 128" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="9" stroke-linecap="round"/>
+                  <polygon points="100,46 109,69 133,69 114,84 121,107 100,93 79,107 86,84 67,69 91,69" fill="#ea653d"/>
+                  <rect x="88" y="144" width="24" height="30" fill="#ea653d"/>
+                  <rect x="62" y="171" width="76" height="17" rx="4" fill="#ea653d"/>
+                  <rect x="46" y="186" width="108" height="32" rx="7" fill="#e2de3e"/>
+                </svg>
+              </div>
+              <div class="top-hl">
+                <div class="top-big"><span class="n8" id="top-n"></span><span id="top-word"></span></div>
+                <div class="top-sub" id="top-sub">en septembre</div>
+              </div>
+            </div>
             <div class="stamp" id="top-stamp">Ex æquo</div>
             <div class="top-cards" id="top-cards"></div>
           </div>
@@ -217,7 +238,7 @@
 
         __TIER_SECTIONS__
 
-        <section id="s-crawl" class="clip scene" data-start="__T_CRAWLA__" data-duration="__D_CRAWL__" data-track-index="1">
+        <section id="s-crawl" class="clip scene" data-start="__T_T3__" data-duration="__D_CRAWL__" data-track-index="1">
           <div class="crawl-win" id="crawl-win"></div>
         </section>
 
@@ -240,8 +261,8 @@
           <div class="shape o-sq" id="o-sq"></div>
           <div class="outro-copy">
             <div class="outro-title">
-              <span class="line" id="ot-1">Bravo à toutes</span>
-              <span class="line y" id="ot-2">et à tous</span>
+              <span class="line y" id="ot-1">Bravo</span>
+              <span class="line" id="ot-2">à toutes et à tous</span>
             </div>
             __LOGO_OUTRO__
           </div>
@@ -382,57 +403,36 @@
         tl.to("#g-bar1, #g-bar2, #g-tri, #g-sq-small, #g-ring, #g-square", { scale: 0.3, opacity: 0, duration: 0.45, ease: "hfIn", stagger: 0.03 }, A - 0.75);
         tl.to("#g-circle", { scale: 8, duration: 0.7, ease: "hfIn" }, A - 0.7);
         hudHide(A - 0.75, A + 0.75);
-        // ouverture en iris sur les chiffres
+        // ouverture en iris directement sur le top du classement
         tl.set("#iris", { opacity: 1, "--r": "0px" }, A);
         tl.set("#g-circle", { opacity: 0 }, A);
         tl.to("#iris", { "--r": "1300px", duration: 0.75, ease: "hfOut" }, A);
         tl.set("#iris", { opacity: 0 }, A + 0.76);
 
-        // ================= 2. CHIFFRES CLÉS =================
-        section(A, "Chiffres clés");
-        tl.fromTo("#fg-kicker", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: "hfOut" }, A + 0.25);
-        charIn(chars($("fg-title")), A + 0.3);
-        const statDefs = [
-          [D.stats.total, "réservations sur le mois"],
-          [D.stats.max, "ventes : record individuel du mois"],
-        ];
-        const statEls = [];
-        statDefs.forEach(([val, lab], i) => {
-          const st = h("div", "stat");
-          const line = h("div", "stat-line"); const fill = h("i"); line.appendChild(fill);
-          const num = h("div", "stat-num");
-          const strips = String(val).split("").map(Number).map((d) => {
-            const dg = h("span", "digit"); const s = h("span", "strip");
-            for (let k = 0; k < 20; k++) s.appendChild(h("span", null, String(k % 10)));
-            dg.appendChild(s); num.appendChild(dg); return [s, d];
-          });
-          const l = h("div", "stat-lab", esc(lab));
-          st.append(line, num, l); $("stats").appendChild(st); statEls.push({ st, num, l, line });
-          const at = A + 2 * B + i * 2 * B;
-          tl.fromTo(fill, { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "hfOut" }, at);
-          tl.fromTo(num, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "hfOut" }, at);
-          strips.forEach(([s, d], j) => tl.fromTo(s, { yPercent: 0 }, { yPercent: -(10 + d) * 5, duration: 1.5 + j * 0.25, ease: "power4.out" }, at));
-          charIn(chars(l), at + 0.3, { stagger: 0.012 });
-        });
-        // raccord : on plonge dans le « 8 »
         const TOP = T.top;
-        tl.to([statEls[0].st, statEls[1].l, statEls[1].line], { opacity: 0, y: 40, filter: "blur(8px)", duration: 0.45, ease: "hfIn", stagger: 0.05 }, TOP - 1.1);
-        tl.to(["#fg-kicker", "#fg-title"], { opacity: 0, y: -40, duration: 0.4, ease: "hfIn" }, TOP - 1.1);
-        tl.to(statEls[1].num, { scale: 30, duration: 0.85, ease: "hfIn" }, TOP - 0.85);
-        hudHide(TOP - 0.9, TOP + 0.4);
 
         // ================= 3. TOP =================
         const top = D.tiers[0];
         section(TOP, `Top · ${plural(top.n, "vente")}`);
         $("top-bg8").textContent = top.n;
-        $("top-title").textContent = `${plural(top.n, "vente")} en septembre`;
+        $("top-n").textContent = top.n;
+        $("top-word").textContent = top.n > 1 ? "ventes" : "vente";
         tl.fromTo("#top-bg8", { scale: 3.4 }, { scale: 1, duration: 1.4, ease: "hfOut" }, TOP);
         tl.fromTo("#beam-1", { rotation: 28, opacity: 0 }, { rotation: -12, opacity: 1, duration: 4.5, ease: "sine.inOut" }, TOP + 0.2);
         tl.fromTo("#beam-2", { rotation: -28, opacity: 0 }, { rotation: 12, opacity: 1, duration: 4.5, ease: "sine.inOut" }, TOP + 0.2);
         tl.to("#beam-1", { rotation: 10, duration: 4.5, ease: "sine.inOut" }, TOP + 4.7);
         tl.to("#beam-2", { rotation: -10, duration: 4.5, ease: "sine.inOut" }, TOP + 4.7);
-        tl.fromTo("#top-kicker", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: "hfOut" }, TOP + 0.35);
-        charIn(chars($("top-title")), TOP + 0.4);
+        // « 8 ventes en septembre » : le chiffre s'écrase, le trophée tombe, les rayons tournent
+        tl.fromTo("#top-n", { scale: 4.5, opacity: 0, filter: "blur(18px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "hfOut" }, TOP + 0.4);
+        tl.fromTo("#top-n", { scale: 1 }, { scale: 1.12, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, TOP + 1.0);
+        charIn(chars($("top-word")), TOP + 0.62, { stagger: 0.04 });
+        charIn(chars($("top-sub")), TOP + 0.95, { stagger: 0.025, dur: 0.6 });
+        tl.fromTo("#trophy", { y: -620, rotation: -24, scale: 0.7, opacity: 0, transformOrigin: "50% 100%" },
+          { y: 0, rotation: 0, scale: 1, opacity: 1, duration: 0.75, ease: "hfBack" }, TOP + 0.3);
+        tl.fromTo("#trophy", { rotation: 0 }, { rotation: -6, duration: 0.22, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, TOP + 1.05);
+        tl.fromTo("#rays", { scale: 0, opacity: 0, rotation: -40 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.9, ease: "hfOut" }, TOP + 0.75);
+        tl.to("#rays", { rotation: 70, duration: T.t6 - TOP - 1.65, ease: "sine.inOut" }, TOP + 1.65);
+        bursts.push({ t: TOP + 1.0, x: 206, y: 230, n: 60, seed: 31, spread: 0.8 });
         const topCards = [];
         const cardGap = top.people.length > 2 ? 4 * B : 6 * B;
         top.people.forEach((p, i) => {
@@ -440,7 +440,7 @@
           const bar = h("div", "bar");
           const shine = h("div", "shine");
           const tx = h("div", "top-txt");
-          const size = fit((s) => [[p.nom + " ", 800, s], [p.prenom, 400, s]], 96, 1240, 56);
+          const size = fit((s) => [[p.nom + " ", 800, s], [p.prenom, 400, s]], 92, 1260, 56);
           const nm = h("div", "top-name", `<b>${esc(p.nom)}</b> <em>${esc(p.prenom)}</em>`);
           nm.style.fontSize = size + "px";
           const ag = h("div", "top-ag", esc(p.agence));
@@ -453,7 +453,7 @@
           $("top-cards").appendChild(c);
           topCards.push(c);
           const nmChars = chars(nm);
-          const at = TOP + 4 * B + i * cardGap;
+          const at = TOP + 6 * B + i * cardGap;
           tl.fromTo(c, { scale: 1.35, opacity: 0, filter: "blur(14px)", rotationY: -14, transformPerspective: 1600 },
             { scale: 1, opacity: 1, filter: "blur(0px)", rotationY: 0, duration: 0.6, ease: "hfOut" }, at);
           tl.fromTo(bar, { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: "hfOut" }, at + 0.1);
@@ -463,10 +463,10 @@
           tl.fromTo(ring, { scale: 0.7, opacity: 1 }, { scale: 1.6, opacity: 0, duration: 0.9, ease: "hfOut" }, at + 2 * B + 0.15);
           tl.fromTo(shine, { x: -300 }, { x: 1800, duration: 1.1, ease: "hfInOut" }, at + 0.6);
         });
-        const stampAt = TOP + 4 * B + top.people.length * cardGap;
+        const stampAt = TOP + 6 * B + top.people.length * cardGap;
         if (top.people.length > 1) {
           tl.fromTo("#top-stamp", { scale: 2.6, rotation: -24, opacity: 0 }, { scale: 1, rotation: -6, opacity: 1, duration: 0.5, ease: "hfBack" }, stampAt);
-          bursts.push({ t: stampAt + 0.05, x: 1700, y: 360, n: 70, seed: 11 }, { t: stampAt + 0.05, x: 1700, y: 650, n: 70, seed: 23 });
+          bursts.push({ t: stampAt + 0.05, x: 1700, y: 500, n: 70, seed: 11 }, { t: stampAt + 0.05, x: 1700, y: 760, n: 70, seed: 23 });
           topCards.forEach((c, i) => tl.fromTo(c.querySelector(".shine"), { x: -300 }, { x: 1800, duration: 1.0, ease: "hfInOut", immediateRender: false }, stampAt + 0.2 + i * 0.12));
         } else $("top-stamp").style.display = "none";
         // sortie : volets obliques
@@ -479,8 +479,8 @@
         hudHide(T6 - 0.55, T6 + 0.7);
 
         // ================= 4. PALIERS (en-tête persistant) =================
-        const mids = D.tiers.slice(1, 5);
-        const crawlTiers = D.tiers.slice(5, 7);
+        const mids = D.tiers.slice(1, 4);
+        const crawlTiers = D.tiers.slice(4, 7); // 3, 2 et 1 vente : même défilé par agence
         const seq = [...mids, ...crawlTiers];
         const seqStart = [T.t6, T.t5, T.t4, T.t3, T.crawlA, T.crawlB];
         seq.forEach((t, i) => { const d = h("span", null, String(t.n)); if (i) d.style.opacity = 0; $("tb-strip").appendChild(d); });
@@ -570,8 +570,8 @@
         // regroupement par agence : l'agence à gauche, ses vendeurs sur 2 colonnes à droite
         const AG_W = 470, NCOL_W = 604, NCOL_GAP = 40, LINE_H = 74, GROUP_GAP = 30;
         const crawls = crawlTiers.map((tier, ci) => {
-          const start = ci === 0 ? T.crawlA : T.crawlB;
-          const stop = ci === 0 ? T.crawlB : T.outro;
+          const start = [T.t3, T.crawlA, T.crawlB][ci];
+          const stop = [T.crawlA, T.crawlB, T.outro][ci];
           const groups = [];
           tier.people.forEach((p) => {
             const g = groups[groups.length - 1];
@@ -640,8 +640,8 @@
         [["#o-circle", { scale: 0 }], ["#o-ring", { scale: 2.4 }], ["#o-bar", { scaleX: 0 }], ["#o-tri", { x: -200, y: 200, rotation: -60 }], ["#o-sq", { scale: 0, rotation: 135 }]]
           .forEach(([s, f], i) => tl.fromTo(s, Object.assign({ opacity: 0 }, f), { opacity: 1, scale: 1, scaleX: 1, x: 0, y: 0, rotation: 0, duration: 1.0, ease: "hfOut" }, O + 0.05 + i * 0.07));
         const ot1 = chars($("ot-1")), ot2 = chars($("ot-2"));
-        charIn(ot1, O + 0.2, { stagger: 0.04 });
-        tl.fromTo(ot2, { scale: 2.2, opacity: 0, filter: "blur(12px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "hfOut", stagger: 0.035 }, O + 4 * B);
+        tl.fromTo(ot1, { scale: 2.4, opacity: 0, filter: "blur(14px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "hfOut", stagger: 0.05 }, O + 0.15);
+        charIn(ot2, O + 4 * B, { stagger: 0.03 });
         bursts.push({ t: O + 4 * B + 0.5, x: 960, y: 420, n: 150, seed: 7, spread: 1.2 });
         logoIn(document.querySelector(".logo-outro"), T.tail);
         tl.to("#o-circle", { x: 26, y: 18, duration: 3.5, ease: "sine.inOut" }, O + 1.3);

@@ -144,24 +144,20 @@ for i in range(3):
     place(sfx, whoosh(0.35), 1.2 + i * 0.32, 0.07, -0.2 + i * 0.2)
 # iris
 place(sfx, whoosh(0.8, True, 200, 4000), A - 0.75, 0.2)
-# compteurs : petits tics
-for i, val in enumerate((D["stats"]["total"], D["stats"]["max"])):  # « vendeurs classés » retiré (21/10/2026)
-    at = A + 2 * B + i * 2 * B
-    for k in range(14):
-        place(sfx, tick(2300 + 400 * i), at + 1.4 * (1 - (1 - k / 14) ** 2), 0.05, -0.5 + 0.5 * i)
-# plongée dans le 8
-place(sfx, whoosh(0.9, True, 150, 9000), TOP - 0.9, 0.24)
-place(sfx, impact(1.0), TOP, 0.3)
+# arrivée du top (l'écran des chiffres est supprimé) : impact sur le « 8 »
+place(sfx, impact(1.0), TOP + 0.45, 0.3)
+place(sfx, pop(700, 380, 0.2), TOP + 0.4, 0.16)
+place(sfx, sparkle(1.4, 9), TOP + 0.5, 0.1, -0.5)
 # top
 top = D["tiers"][0]["people"]
 gap = 4 * B if len(top) > 2 else 6 * B
 for i in range(len(top)):
-    at = TOP + 4 * B + i * gap
+    at = TOP + 6 * B + i * gap
     place(sfx, impact(0.6), at, 0.18)
     place(sfx, pop(950, 560, 0.18), at + 2 * B, 0.22)
     place(sfx, bell(1760, 1.0), at + 2 * B + 0.05, 0.06, 0.2)
 if len(top) > 1:
-    st = TOP + 4 * B + len(top) * gap
+    st = TOP + 6 * B + len(top) * gap
     place(sfx, impact(0.9), st, 0.3)
     place(sfx, sparkle(1.6, 3), st + 0.05, 0.12, 0.4)
 # volets obliques
@@ -174,7 +170,7 @@ for i, S in enumerate(starts):
     else:
         place(sfx, whoosh(0.4, False, 600, 5000), S - 0.3, 0.08, -0.5)
         place(sfx, pop(700, 420, 0.14), S + 0.3, 0.12, -0.5)
-for ti, tier in enumerate(D["tiers"][1:5]):
+for ti, tier in enumerate(D["tiers"][1:4]):  # 3, 2 et 1 vente : défilés
     S = starts[ti]
     n = len(tier["people"])
     if n > 6:
