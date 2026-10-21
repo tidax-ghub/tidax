@@ -145,7 +145,7 @@ for i in range(3):
 # iris
 place(sfx, whoosh(0.8, True, 200, 4000), A - 0.75, 0.2)
 # compteurs : petits tics
-for i, val in enumerate((D["stats"]["count"], D["stats"]["total"], D["stats"]["max"])):
+for i, val in enumerate((D["stats"]["total"], D["stats"]["max"])):  # « vendeurs classés » retiré (21/10/2026)
     at = A + 2 * B + i * 2 * B
     for k in range(14):
         place(sfx, tick(2300 + 400 * i), at + 1.4 * (1 - (1 - k / 14) ** 2), 0.05, -0.5 + 0.5 * i)

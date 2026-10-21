@@ -63,7 +63,7 @@
       .kicker { display: inline-block; font-size: 22px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--white);
         padding: 6px 16px; border: 3px solid var(--orange); background: var(--blue-ink); border-radius: 6px; }
       .h2 { font-weight: 800; font-size: 76px; line-height: 1.05; letter-spacing: -0.015em; margin-top: 22px; }
-      .stats { position: absolute; left: 0; right: 0; bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+      .stats { position: absolute; left: 0; right: 0; bottom: 40px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 96px; }
       .stat { position: relative; padding-top: 30px; }
       .stat-line { position: absolute; left: 0; top: 0; width: 100%; height: 8px; background: rgba(255,255,255,0.2); }
       .stat-line i { display: block; width: 100%; height: 100%; background: var(--orange); transform-origin: 0 50%; }
@@ -396,7 +396,6 @@
         tl.fromTo("#fg-kicker", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: "hfOut" }, A + 0.25);
         charIn(chars($("fg-title")), A + 0.3);
         const statDefs = [
-          [D.stats.count, "vendeurs classés"],
           [D.stats.total, "ventes signées sur le mois"],
           [D.stats.max, "ventes : record individuel du mois"],
         ];
@@ -420,9 +419,9 @@
         });
         // raccord : on plonge dans le « 8 »
         const TOP = T.top;
-        tl.to([statEls[0].st, statEls[1].st, statEls[2].l, statEls[2].line], { opacity: 0, y: 40, filter: "blur(8px)", duration: 0.45, ease: "hfIn", stagger: 0.05 }, TOP - 1.1);
+        tl.to([statEls[0].st, statEls[1].l, statEls[1].line], { opacity: 0, y: 40, filter: "blur(8px)", duration: 0.45, ease: "hfIn", stagger: 0.05 }, TOP - 1.1);
         tl.to(["#fg-kicker", "#fg-title"], { opacity: 0, y: -40, duration: 0.4, ease: "hfIn" }, TOP - 1.1);
-        tl.to(statEls[2].num, { scale: 30, duration: 0.85, ease: "hfIn" }, TOP - 0.85);
+        tl.to(statEls[1].num, { scale: 30, duration: 0.85, ease: "hfIn" }, TOP - 0.85);
         hudHide(TOP - 0.9, TOP + 0.4);
 
         // ================= 3. TOP =================
