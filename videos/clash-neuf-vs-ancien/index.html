@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Clash : Neuf vs Ancien</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="src/data.js"></script>
+    <script src="src/characters.js"></script>
+    <style>
+      @font-face { font-family: "Anton"; font-weight: 400; src: url("assets/fonts/anton.woff2") format("woff2"); }
+      body { margin: 0; background: #0a1530; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #0a1530; font-family: "Anton", sans-serif; }
+      .layer { position: absolute; inset: 0; }
+      .layer svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .scene { position: absolute; inset: 0; opacity: 0; }
+      .cam { position: absolute; inset: 0; }
+      .rig { position: absolute; inset: 0; }
+      .vs-half { position: absolute; top: 0; width: 540px; height: 1920px; overflow: hidden; }
+      .vs-half .rig { left: -270px; width: 1080px; }
+      .vs-left { left: 0; background: #2a1a12; }
+      .vs-right { left: 540px; background: #0f2a3f; }
+      .vs-half .tint { position: absolute; inset: 0; }
+      .vs-badge {
+        position: absolute; left: 340px; top: 620px; width: 400px; height: 400px; display: flex; align-items: center; justify-content: center;
+        font-size: 230px; color: #ffd23f; -webkit-text-stroke: 14px #111; paint-order: stroke fill; letter-spacing: -6px;
+      }
+      .vs-name { position: absolute; top: 150px; width: 540px; text-align: center; font-size: 92px; color: #fff; -webkit-text-stroke: 12px #111; paint-order: stroke fill; }
+      .vs-title { position: absolute; left: 0; right: 0; top: 40px; text-align: center; font-size: 64px; color: #ffd23f; -webkit-text-stroke: 10px #111; paint-order: stroke fill; letter-spacing: 2px; }
+      .tag {
+        position: absolute; left: 50%; top: 92px; transform: translateX(-50%); padding: 14px 40px 10px; border-radius: 60px;
+        background: #111a; border: 5px solid #fff; color: #fff; font-size: 54px; white-space: nowrap; letter-spacing: 2px;
+      }
+      .tag small { font-size: 34px; color: #ffd23f; margin-left: 14px; }
+      .cap {
+        position: absolute; left: 70px; right: 70px; top: 1300px; text-align: center; opacity: 0;
+        font-size: 104px; line-height: 1.02; color: #fff; text-transform: uppercase;
+        -webkit-text-stroke: 16px #000; paint-order: stroke fill; text-shadow: 0 8px 0 #000;
+      }
+      .round { position: absolute; left: 0; right: 0; top: 760px; text-align: center; opacity: 0; color: #ffd23f;
+        font-size: 170px; line-height: 1; -webkit-text-stroke: 16px #111; paint-order: stroke fill; }
+      .round div { font-size: 96px; color: #fff; }
+      .flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+      .outro-q { position: absolute; left: 50px; right: 50px; top: 110px; text-align: center; color: #fff; font-size: 120px; line-height: 1.02;
+        -webkit-text-stroke: 14px #111; paint-order: stroke fill; }
+      .outro-q span { color: #ffd23f; }
+      .outro-mini { position: absolute; top: 440px; width: 620px; height: 1102px; }
+      .outro-mini .rig { width: 1080px; height: 1920px; transform-origin: 0 0; }
+      .outro-cta { position: absolute; left: 0; right: 0; top: 1585px; text-align: center; color: #fff; font-size: 70px;
+        -webkit-text-stroke: 10px #111; paint-order: stroke fill; }
+      .outro-logo { position: absolute; left: 370px; top: 1730px; width: 340px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="64">
+      <audio id="mix" src="assets/audio/mix.wav" data-start="0" data-duration="64" data-track-index="9"></audio>
+      <div id="cam" class="cam">
+        <div id="stage" class="layer"></div>
+        <div id="scenes" class="layer"></div>
+      </div>
+      <div id="caps" class="layer"></div>
+      <div id="round-1" class="round">ROUND 1<div>L'ANCIEN</div></div>
+      <div id="round-2" class="round">ROUND 2<div>LE NEUF</div></div>
+      <div id="flash" class="flash"></div>
+    </div>
+
+    <script>
+      const D = window.CLASH;
+      const ART = window.CLASH_ART;
+      const BEAT = 60 / D.bpm;
+      const END = D.duration;
+      const $ = (s, r = document) => r.querySelector(s);
+
+      $("#stage").innerHTML = ART.stage();
+
+      function rig(kind) {
+        const el = document.createElement("div");
+        el.className = "rig";
+        el.dataset.kind = kind;
+        el.innerHTML = ART.character(kind);
+        return el;
+      }
+      function scene(id) {
+        const el = document.createElement("div");
+        el.className = "scene";
+        el.id = id;
+        $("#scenes").appendChild(el);
+        return el;
+      }
+
+      // --- Scènes ---
+      const sIntro = scene("s-intro");
+      sIntro.innerHTML = `
+        <div class="vs-half vs-left" data-layout-allow-overflow><div class="tint"></div></div>
+        <div class="vs-half vs-right" data-layout-allow-overflow><div class="tint"></div></div>
+        <div class="vs-title">CLASH DE L'IMMO</div>
+        <div class="vs-name" style="left:0">L'ANCIEN</div>
+        <div class="vs-name" style="left:540px">LE NEUF</div>
+        <div class="vs-badge">VS</div>`;
+      sIntro.querySelector(".vs-left").appendChild(rig("ancien"));
+      sIntro.querySelector(".vs-right").appendChild(rig("neuf"));
+      sIntro.querySelector(".vs-left .tint").style.background = "linear-gradient(#0000 55%, #b5634a55)";
+      sIntro.querySelector(".vs-right .tint").style.background = "linear-gradient(#0000 55%, #2fbf7155)";
+
+      const sAncien = scene("s-ancien");
+      sAncien.appendChild(rig("ancien"));
+      sAncien.insertAdjacentHTML("beforeend", `<div class="tag">L'ANCIEN<small>HAUSSMANNIEN · 1890</small></div>`);
+      const sNeuf = scene("s-neuf");
+      sNeuf.appendChild(rig("neuf"));
+      sNeuf.insertAdjacentHTML("beforeend", `<div class="tag">LE NEUF<small>VEFA · RE2020</small></div>`);
+      const sMc = scene("s-mc");
+      sMc.appendChild(rig("mc"));
+      sMc.insertAdjacentHTML("beforeend", `<div class="tag">LE MC<small>CLASH DE L'IMMO</small></div>`);
+
+      const sOutro = scene("s-outro");
+      sOutro.innerHTML = `
+        <div class="outro-q"><div>TEAM <span>NEUF</span></div><div>OU TEAM <span>ANCIEN</span> ?</div></div>
+        <div class="outro-mini" style="left:-80px"></div>
+        <div class="outro-mini" style="left:540px"></div>
+        <div class="outro-cta">DIS-LE EN COMMENTAIRE !</div>
+        <img class="outro-logo" src="assets/medicis-blanc-orange.svg" alt="Medicis Immobilier Neuf" />`;
+      const minis = sOutro.querySelectorAll(".outro-mini");
+      minis[0].appendChild(rig("ancien"));
+      minis[1].appendChild(rig("neuf"));
+      minis.forEach((m) => (m.querySelector(".rig").style.transform = "scale(0.574)"));
+
+      // --- Segments (qui est à l'écran, quand) ---
+      const L = D.lines;
+      const segs = [];
+      let hi = 0;
+      L.forEach((l, i) => {
+        const first = i === 0 || L[i - 1].who !== l.who;
+        if (!first) return;
+        let at = l.start;
+        if (l.who !== "mc") at = D.horns[hi++];
+        else if (i === 0) at = 0;
+        segs.push({ who: l.who, at });
+      });
+      // Remplace le premier segment MC (intro) par le carton VS.
+      segs[0].who = "intro";
+      const outroAt = L[L.length - 1].end + 0.45;
+      segs.push({ who: "outro", at: outroAt });
+      const sceneOf = { intro: sIntro, ancien: sAncien, neuf: sNeuf, mc: sMc, outro: sOutro };
+
+      const tl = gsap.timeline({ paused: true });
+      segs.forEach((s, i) => {
+        const end = i + 1 < segs.length ? segs[i + 1].at : END;
+        const el = sceneOf[s.who];
+        tl.set(el, { opacity: 1 }, s.at);
+        tl.set(el, { opacity: 0 }, end);
+        s.end = end;
+      });
+
+      // --- Bouches calées sur l'énergie de la voix ---
+      function lipSync(rigEl, who, from, to) {
+        const m = rigEl.querySelector(".mouth");
+        const cx = +m.dataset.cx, cy = +m.dataset.cy;
+        const arr = D.mouth[who];
+        let last = -1;
+        tl.set(m, { scaleY: 0.12, svgOrigin: `${cx} ${cy}` }, from);
+        for (let k = Math.floor(from * D.fps); k < Math.min(arr.length, Math.ceil(to * D.fps)); k++) {
+          const v = 0.12 + 0.88 * Math.min(1, arr[k] * 1.15);
+          if (Math.abs(v - last) < 0.06) continue;
+          tl.to(m, { scaleY: v, svgOrigin: `${cx} ${cy}`, duration: 1 / D.fps, ease: "none" }, k / D.fps);
+          last = v;
+        }
+      }
+      function closeMouth(rigEl, t) {
+        const m = rigEl.querySelector(".mouth");
+        tl.set(m, { scaleY: 0.12, svgOrigin: `${m.dataset.cx} ${m.dataset.cy}` }, t);
+      }
+      function blink(rigEl, from, to, rest) {
+        rigEl.querySelectorAll(".lid").forEach((lid) => {
+          const o = `${lid.dataset.cx} ${lid.dataset.cy}`;
+          tl.set(lid, { scaleY: rest, svgOrigin: o }, from);
+          for (let t = from + 1.3; t < to - 0.3; t += 3.1) {
+            tl.to(lid, { scaleY: 1.9, svgOrigin: o, duration: 0.07 }, t);
+            tl.to(lid, { scaleY: rest, svgOrigin: o, duration: 0.1 }, t + 0.09);
+          }
+        });
+      }
+      function groove(rigEl, from, to, amp, talking) {
+        const firstBeat = Math.ceil(from / BEAT) * BEAT;
+        for (let t = firstBeat; t < to - 0.05; t += BEAT) {
+          tl.to(rigEl, { y: -amp, duration: BEAT * 0.28, ease: "power2.out" }, t);
+          tl.to(rigEl, { y: 0, duration: BEAT * 0.6, ease: "power1.in" }, t + BEAT * 0.3);
+          if (talking) {
+            const b = Math.round(t / BEAT);
+            const fist = rigEl.querySelector(".arm-fist");
+            tl.to(fist, { rotation: b % 2 ? -7 : 5, svgOrigin: "540 1090", duration: BEAT * 0.3, ease: "power2.out" }, t);
+          }
+        }
+      }
+
+      const rigOf = (scn) => scn.querySelector(".rig");
+      segs.forEach((s) => {
+        if (s.who === "intro") {
+          sIntro.querySelectorAll(".rig").forEach((r, i) => {
+            closeMouth(r, 0);
+            blink(r, 0, s.end, i === 0 ? 0.55 : 0.0);
+            groove(r, 0, s.end, 10, false);
+          });
+          tl.fromTo(".vs-badge", { scale: 0.2, rotation: -30 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(3)" }, 0.25);
+          tl.to(".vs-badge", { scale: 1.12, duration: BEAT / 2, yoyo: true, repeat: 5, ease: "sine.inOut" }, 0.8);
+          tl.fromTo(".vs-left", { xPercent: -100 }, { xPercent: 0, duration: 0.45, ease: "power3.out" }, 0);
+          tl.fromTo(".vs-right", { xPercent: 100 }, { xPercent: 0, duration: 0.45, ease: "power3.out" }, 0);
+          return;
+        }
+        if (s.who === "outro") {
+          sOutro.querySelectorAll(".rig").forEach((r, i) => {
+            closeMouth(r, s.at);
+            blink(r, s.at, END, i === 0 ? 0.55 : 0);
+          });
+          minis.forEach((m, i) => {
+            tl.to(m, { y: -16, duration: BEAT * 0.3, yoyo: true, repeat: Math.floor((END - s.at) / (BEAT * 0.6)) - 1, ease: "sine.inOut" }, s.at + i * BEAT * 0.5);
+          });
+          tl.fromTo(".outro-q", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2.5)" }, s.at + 0.05);
+          tl.fromTo(".outro-cta", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, s.at + 0.6);
+          tl.fromTo(".outro-logo", { opacity: 0 }, { opacity: 1, duration: 0.5 }, s.at + 1.0);
+          return;
+        }
+        const r = rigOf(sceneOf[s.who]);
+        lipSync(r, s.who, s.at, s.end);
+        closeMouth(r, s.end - 0.01);
+        blink(r, s.at, s.end, s.who === "ancien" ? 0.55 : s.who === "mc" ? 0.15 : 0);
+        groove(r, s.at, s.end, s.who === "mc" ? 12 : 16, true);
+      });
+
+      // --- Sous-titres ---
+      L.forEach((l) => {
+        l.chunks.forEach((c, j) => {
+          const el = document.createElement("div");
+          el.className = "cap";
+          el.textContent = c.text;
+          $("#caps").appendChild(el);
+          const out = j + 1 < l.chunks.length ? l.chunks[j + 1].start : Math.max(c.end, l.end) + 0.25;
+          tl.fromTo(el, { opacity: 1, scale: 0.82 }, { scale: 1, duration: 0.12, ease: "back.out(3)", immediateRender: false }, c.start);
+          tl.set(el, { opacity: 0 }, out);
+        });
+      });
+
+      // --- Cornes de brume : ROUND 1 / ROUND 2 ---
+      D.horns.forEach((t, i) => {
+        const r = `#round-${i + 1}`;
+        tl.fromTo(r, { opacity: 1, scale: 1.6 }, { scale: 1, duration: 0.25, ease: "power4.out", immediateRender: false }, t);
+        tl.to(r, { opacity: 0, duration: 0.2 }, t + 1.15);
+        tl.fromTo("#flash", { opacity: 0.85 }, { opacity: 0, duration: 0.35, immediateRender: false }, t);
+        [0, 0.12, 0.24].forEach((o) => {
+          tl.fromTo("#cam", { x: -14 }, { x: 0, duration: 0.1, ease: "none", immediateRender: false }, t + o);
+        });
+      });
+
+      // --- Caméra : petit punch-in à chaque phrase, scène qui pulse sur le temps ---
+      L.forEach((l) => {
+        tl.fromTo("#cam", { scale: 1.05 }, { scale: 1, duration: 0.35, ease: "power2.out", immediateRender: false, transformOrigin: "50% 45%" }, l.start);
+      });
+      for (let t = BEAT; t < END - 0.1; t += BEAT) {
+        tl.fromTo(".crowd-front", { y: 0 }, { y: -10, duration: BEAT * 0.25, yoyo: true, repeat: 1, ease: "power1.out", immediateRender: false }, t);
+        tl.fromTo(".crowd-back", { y: 0 }, { y: -6, duration: BEAT * 0.3, yoyo: true, repeat: 1, ease: "power1.out", immediateRender: false }, t + BEAT * 0.15);
+      }
+      tl.fromTo(".beam-l", { rotation: -6 }, { rotation: 6, svgOrigin: "170 -20", duration: BEAT * 4, yoyo: true, repeat: Math.floor(END / (BEAT * 4)) - 1, ease: "sine.inOut" }, 0);
+      tl.fromTo(".beam-r", { rotation: 6 }, { rotation: -6, svgOrigin: "910 -20", duration: BEAT * 4, yoyo: true, repeat: Math.floor(END / (BEAT * 4)) - 1, ease: "sine.inOut" }, 0);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

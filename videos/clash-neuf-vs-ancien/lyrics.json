@@ -1,0 +1,29 @@
+{
+  "bpm": 90,
+  "intro_bars": 1,
+  "lines": [
+    { "who": "mc", "say": "Ce soir, clash de l'immobilier ! L'Ancien, contre le Neuf !", "show": ["CE SOIR, CLASH", "DE L'IMMOBILIER !", "L'ANCIEN", "CONTRE LE NEUF !"] },
+
+    { "who": "ancien", "say": "Ouais le Neuf, t'as pas d'âme, t'es qu'un cube en béton.", "show": ["OUAIS LE NEUF", "T'AS PAS D'ÂME", "T'ES QU'UN CUBE EN BÉTON"] },
+    { "who": "ancien", "say": "Moi j'ai des moulures, du parquet, des cheminées dans l'salon.", "show": ["MOI J'AI DES MOULURES", "DU PARQUET", "DES CHEMINÉES DANS L'SALON"] },
+    { "who": "ancien", "say": "T'es vendu sur plan, personne t'a jamais vu.", "show": ["T'ES VENDU SUR PLAN", "PERSONNE T'A JAMAIS VU"] },
+    { "who": "ancien", "say": "Moi j'suis là depuis cent ans, tout l'quartier m'a connu.", "show": ["MOI J'SUIS LÀ DEPUIS CENT ANS", "TOUT L'QUARTIER M'A CONNU"] },
+    { "who": "ancien", "say": "Tes plafonds sont si bas, qu'tu t'cognes en t'levant.", "show": ["TES PLAFONDS SONT SI BAS", "QU'TU T'COGNES EN T'LEVANT"] },
+    { "who": "ancien", "say": "Moi j'ai trois mètres sous plafond, ça respire dedans.", "show": ["MOI J'AI TROIS MÈTRES", "SOUS PLAFOND", "ÇA RESPIRE DEDANS"] },
+    { "who": "ancien", "say": "Et tes réserves à la livraison, t'en as partout.", "show": ["ET TES RÉSERVES", "À LA LIVRAISON", "T'EN AS PARTOUT"] },
+    { "who": "ancien", "say": "Retourne sur ton chantier, petit, t'es même pas fini du tout !", "show": ["RETOURNE SUR TON CHANTIER", "PETIT", "T'ES MÊME PAS FINI DU TOUT !"] },
+
+    { "who": "mc", "say": "Oh ! L'Ancien a envoyé ! Le Neuf, montre-nous !", "show": ["OH ! L'ANCIEN", "A ENVOYÉ !", "LE NEUF", "MONTRE-NOUS !"] },
+
+    { "who": "neuf", "say": "L'Ancien, t'es une passoire, ton D. P. E., c'est du G !", "show": ["L'ANCIEN", "T'ES UNE PASSOIRE", "TON DPE C'EST DU G !"] },
+    { "who": "neuf", "say": "Plus l'droit d'être mis en loc', papi, t'es grillé.", "show": ["PLUS L'DROIT", "D'ÊTRE MIS EN LOC'", "PAPI, T'ES GRILLÉ"] },
+    { "who": "neuf", "say": "Tes frais d'notaire, sept, huit pour cent, ça pique.", "show": ["TES FRAIS D'NOTAIRE", "7-8 %", "ÇA PIQUE"] },
+    { "who": "neuf", "say": "Moi, deux, trois pour cent, c'est mathématique.", "show": ["MOI 2-3 %", "C'EST MATHÉMATIQUE"] },
+    { "who": "neuf", "say": "Garantie décennale, parfait achèvement.", "show": ["GARANTIE DÉCENNALE", "PARFAIT ACHÈVEMENT"] },
+    { "who": "neuf", "say": "Ta toiture qui fuit, c'est pour ta pomme, évidemment.", "show": ["TA TOITURE QUI FUIT", "C'EST POUR TA POMME", "ÉVIDEMMENT"] },
+    { "who": "neuf", "say": "Moi j'suis R. E. deux mille vingt, j'consomme presque rien.", "show": ["MOI J'SUIS RE2020", "J'CONSOMME PRESQUE RIEN"] },
+    { "who": "neuf", "say": "Prends ta retraite, papi ! L'avenir, c'est le mien !", "show": ["PRENDS TA RETRAITE, PAPI !", "L'AVENIR", "C'EST LE MIEN !"] },
+
+    { "who": "mc", "say": "Le Neuf a renvoyé l'Ancien ! Et toi, t'es team qui ?", "show": ["LE NEUF A RENVOYÉ", "L'ANCIEN !", "ET TOI", "T'ES TEAM QUI ?"] }
+  ]
+}
