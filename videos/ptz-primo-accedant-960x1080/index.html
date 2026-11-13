@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=960, height=1080" />
+    <script src="assets/js/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Oswald";
+        src: url("assets/fonts/oswald-latin-700-normal.woff2") format("woff2");
+        font-weight: 700;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "OldStandard";
+        src: url("assets/fonts/old-standard-tt-latin-400-italic.woff2") format("woff2");
+        font-weight: 400;
+        font-style: italic;
+      }
+      :root {
+        /* brand */
+        --blue: #3761ad;
+        --orange: #ea653d;
+        --teal: #009fa3;
+        --lime: #e2de3e;
+        /* derived */
+        --ground: #0b1328;
+        --ground-2: #16264d;
+        --ink: #f4f6fb;
+        --muted: #b6c2dc;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 960px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ground);
+      }
+      #root {
+        position: relative;
+        width: 960px;
+        height: 1080px;
+        overflow: hidden;
+        background: radial-gradient(ellipse at 50% 45%, var(--ground-2) 0%, var(--ground) 72%);
+        color: var(--ink);
+      }
+
+      /* ---------- background ---------- */
+      #bg {
+        position: absolute;
+        inset: 0;
+      }
+      .glow {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+      }
+      #glow1 {
+        width: 620px;
+        height: 480px;
+        left: -260px;
+        top: 60px;
+        background: var(--blue);
+        opacity: 0.45;
+      }
+      #glow2 {
+        width: 540px;
+        height: 520px;
+        right: -280px;
+        bottom: 20px;
+        background: var(--teal);
+        opacity: 0.22;
+      }
+      #waves {
+        position: absolute;
+        left: -270px;
+        top: 0;
+        width: 1500px;
+        height: 1080px;
+      }
+      #waves path {
+        fill: none;
+        stroke-linecap: round;
+      }
+      .w-blue {
+        stroke: #5b86d6;
+        filter: drop-shadow(0 0 8px rgba(55, 97, 173, 0.9));
+      }
+      .w-teal {
+        stroke: var(--teal);
+        filter: drop-shadow(0 0 8px rgba(0, 159, 163, 0.9));
+      }
+      #vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(0, 0, 0, 0) 45%,
+          rgba(3, 7, 18, 0.45) 80%,
+          rgba(3, 7, 18, 0.8) 100%
+        );
+      }
+
+      /* ---------- type system ---------- */
+      .scene {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 50px 40px;
+      }
+      .serif {
+        font-family: "OldStandard", serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 40px;
+        color: var(--ink);
+        opacity: 0.92;
+        line-height: 1.15;
+      }
+      .big {
+        font-family: "Oswald", sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        line-height: 1;
+        letter-spacing: 0.005em;
+        color: var(--ink);
+        text-shadow: 0 0 30px rgba(0, 0, 0, 0.45);
+      }
+      .big.orange {
+        color: var(--orange);
+        text-shadow: 0 0 20px rgba(234, 101, 61, 0.35);
+      }
+      .line {
+        display: block;
+      }
+      .big.line {
+        white-space: nowrap;
+      }
+
+      /* scene 1 */
+      #s1-big1 {
+        font-size: 108px;
+        margin: 4px 0 44px;
+      }
+      #s1-big2 {
+        font-size: 128px;
+        margin: 6px 0 10px;
+      }
+      #s1-big3 {
+        font-size: 74px;
+        margin-top: 8px;
+      }
+      #s1-big3 .n {
+        color: var(--lime);
+        text-shadow: 0 0 22px rgba(226, 222, 62, 0.45);
+      }
+      #s1-bar {
+        position: relative;
+        width: 620px;
+        height: 12px;
+        margin: 32px 0 44px;
+        border-radius: 6px;
+        background: rgba(244, 246, 251, 0.12);
+      }
+      #s1-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        border-radius: 6px;
+        background: linear-gradient(90deg, var(--teal), var(--lime));
+        box-shadow: 0 0 20px rgba(0, 159, 163, 0.7);
+        transform-origin: left center;
+      }
+      .tick {
+        position: absolute;
+        top: 26px;
+        font-family: "OldStandard", serif;
+        font-style: italic;
+        font-size: 28px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      #tick-a {
+        left: 0;
+      }
+      #tick-b {
+        right: 0;
+      }
+
+      /* scene 2 */
+      #s2-big1 {
+        font-size: 98px;
+        margin: 4px 0 24px;
+      }
+      #s2-pill {
+        position: relative;
+        padding: 12px 40px;
+        border: 4px solid var(--teal);
+        border-radius: 70px;
+        box-shadow:
+          0 0 22px rgba(0, 159, 163, 0.6),
+          inset 0 0 18px rgba(0, 159, 163, 0.35);
+        font-family: "Oswald", sans-serif;
+        font-weight: 700;
+        font-size: 48px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        margin-bottom: 30px;
+      }
+      #s2-ringwrap {
+        position: relative;
+        width: 340px;
+        height: 340px;
+        margin: 18px 0 16px;
+      }
+      #s2-ring {
+        position: absolute;
+        inset: 0;
+        transform: rotate(-90deg);
+      }
+      #s2-ring circle {
+        fill: none;
+        stroke-width: 26;
+      }
+      #ring-track {
+        stroke: rgba(244, 246, 251, 0.1);
+      }
+      #ring-fill {
+        stroke: var(--orange);
+        stroke-linecap: round;
+        filter: drop-shadow(0 0 12px rgba(234, 101, 61, 0.8));
+      }
+      #s2-pct {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 140px;
+      }
+      #s2-pct small {
+        font-size: 80px;
+        margin-left: 4px;
+      }
+
+      /* scene 3 */
+      #s3-big1 {
+        font-size: 116px;
+        margin-top: 6px;
+      }
+      #s3-big2 {
+        font-size: 116px;
+        margin-bottom: 44px;
+      }
+      #s3-chart {
+        width: 720px;
+        display: flex;
+        flex-direction: column;
+        gap: 26px;
+        margin-bottom: 40px;
+      }
+      .row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .row-label {
+        font-family: "Oswald", sans-serif;
+        font-weight: 700;
+        font-size: 34px;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .row-label.hot {
+        color: var(--teal);
+      }
+      .bar {
+        position: relative;
+        height: 54px;
+        display: flex;
+        border-radius: 10px;
+        overflow: hidden;
+        transform-origin: left center;
+      }
+      .seg-cap {
+        height: 100%;
+        background: rgba(244, 246, 251, 0.85);
+        display: flex;
+        align-items: center;
+        padding-left: 18px;
+        font-family: "OldStandard", serif;
+        font-style: italic;
+        font-size: 28px;
+        color: var(--ground);
+        white-space: nowrap;
+      }
+      .seg-int {
+        height: 100%;
+        background: repeating-linear-gradient(
+          -45deg,
+          rgba(234, 101, 61, 0.55) 0 12px,
+          rgba(234, 101, 61, 0.28) 12px 24px
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "OldStandard", serif;
+        font-style: italic;
+        font-size: 28px;
+        color: var(--ink);
+        white-space: nowrap;
+      }
+      #bar-classic {
+        width: 720px;
+      }
+      #bar-classic .seg-cap {
+        width: 430px;
+      }
+      #bar-classic .seg-int {
+        width: 290px;
+      }
+      #bar-ptz {
+        width: 430px;
+        box-shadow: 0 0 24px rgba(0, 159, 163, 0.55);
+      }
+      #bar-ptz .seg-cap {
+        width: 430px;
+        background: var(--teal);
+        color: var(--ground);
+      }
+      #saved {
+        position: absolute;
+        left: 450px;
+        top: 0;
+        width: 270px;
+        height: 54px;
+        border: 3px dashed var(--lime);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Oswald", sans-serif;
+        font-weight: 700;
+        font-size: 32px;
+        color: var(--lime);
+        text-shadow: 0 0 14px rgba(226, 222, 62, 0.45);
+      }
+      .ptz-row {
+        position: relative;
+        width: 720px;
+      }
+
+      #footnote {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 34px;
+        text-align: center;
+        font-family: "OldStandard", serif;
+        font-style: italic;
+        font-size: 26px;
+        color: var(--muted);
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="15"
+      data-width="960"
+      data-height="1080"
+    >
+      <!-- background: always on -->
+      <div id="bg" class="clip" data-start="0" data-duration="15" data-track-index="0">
+        <div id="glow1" class="glow"></div>
+        <div id="glow2" class="glow"></div>
+        <svg id="waves" viewBox="0 0 1500 1080">
+          <path id="w1" class="w-blue" stroke-width="4" opacity="0.9"
+            d="M-50 250 C 220 160, 470 360, 750 260 S 1250 150, 1550 280" />
+          <path id="w2" class="w-teal" stroke-width="2.5" opacity="0.6"
+            d="M-50 300 C 260 230, 500 420, 790 320 S 1270 220, 1550 340" />
+          <path id="w3" class="w-teal" stroke-width="4" opacity="0.85"
+            d="M-50 830 C 230 920, 500 720, 770 830 S 1270 940, 1550 800" />
+          <path id="w4" class="w-blue" stroke-width="2.5" opacity="0.6"
+            d="M-50 880 C 280 970, 540 780, 810 885 S 1290 990, 1550 850" />
+        </svg>
+        <div id="vignette"></div>
+      </div>
+
+      <!-- SCENE 1 : primo-accédant -->
+      <div id="s1" class="scene clip" data-start="0" data-duration="3.8" data-track-index="1">
+        <span id="s1-ser1" class="serif line">être</span>
+        <span id="s1-big1" class="big orange line">Primo-accédant</span>
+        <span id="s1-ser2" class="serif line">c'est ne pas avoir été</span>
+        <span id="s1-big2" class="big line">Propriétaire</span>
+        <span id="s1-ser3" class="serif line">de ta résidence principale</span>
+        <span id="s1-big3" class="big line">ces <span class="n">2</span> dernières années</span>
+        <div id="s1-bar">
+          <div id="s1-fill"></div>
+          <span id="tick-a" class="tick">il y a 2 ans</span>
+          <span id="tick-b" class="tick">aujourd'hui</span>
+        </div>
+      </div>
+
+      <!-- SCENE 2 : PTZ -->
+      <div id="s2" class="scene clip" data-start="3.7" data-duration="4.2" data-track-index="2">
+        <span id="s2-ser1" class="serif line">le</span>
+        <span id="s2-big1" class="big line">Prêt à taux zéro</span>
+        <div id="s2-pill">SANS INTÉRÊTS</div>
+        <span id="s2-ser2" class="serif line">peut financer jusqu'à</span>
+        <div id="s2-ringwrap">
+          <svg id="s2-ring" viewBox="0 0 520 520">
+            <circle id="ring-track" cx="260" cy="260" r="230" />
+            <circle id="ring-fill" cx="260" cy="260" r="230" />
+          </svg>
+          <div id="s2-pct" class="big orange"><span id="pct-num">0</span><small>%</small></div>
+        </div>
+        <span id="s2-ser3" class="serif line">du prix de ton logement neuf</span>
+      </div>
+
+      <!-- SCENE 3 : économies -->
+      <div id="s3" class="scene clip" data-start="7.8" data-duration="7.2" data-track-index="3">
+        <span id="s3-ser1" class="serif line">et te faire économiser</span>
+        <span id="s3-big1" class="big line">des milliers</span>
+        <span id="s3-big2" class="big orange line">d'euros</span>
+        <div id="s3-chart">
+          <div class="row">
+            <span class="row-label">Prêt classique</span>
+            <div id="bar-classic" class="bar">
+              <div class="seg-cap">capital</div>
+              <div class="seg-int">+ intérêts</div>
+            </div>
+          </div>
+          <div class="row">
+            <span class="row-label hot">PTZ</span>
+            <div class="ptz-row">
+              <div id="bar-ptz" class="bar"><div class="seg-cap">capital</div></div>
+              <div id="saved">0 € D'INTÉRÊTS</div>
+            </div>
+          </div>
+        </div>
+        <span id="s3-ser2" class="serif line">comparé à un prêt classique</span>
+      </div>
+
+      <div id="footnote" class="clip" data-start="3.7" data-duration="11.3" data-track-index="4">
+        Sous conditions de ressources et d'éligibilité.
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const bigIn = (sel, at) =>
+        tl.fromTo(
+          sel,
+          { opacity: 0, y: 50, scale: 1.18, filter: "blur(12px)" },
+          { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.45, ease: "expo.out" },
+          at
+        );
+      const serIn = (sel, at) =>
+        tl.fromTo(
+          sel,
+          { opacity: 0, y: 18, filter: "blur(5px)" },
+          { opacity: 0.92, y: 0, filter: "blur(0px)", duration: 0.4, ease: "power3.out" },
+          at
+        );
+      const sceneOut = (sel, at) =>
+        tl.to(
+          sel,
+          { opacity: 0, scale: 1.12, filter: "blur(16px)", duration: 0.3, ease: "power2.in" },
+          at
+        );
+
+      // ---------- background (whole film) ----------
+      tl.fromTo("#bg", { opacity: 0.6 }, { opacity: 1, duration: 0.4, ease: "none" }, 0);
+      tl.fromTo("#waves", { x: 0, rotation: -2 }, { x: -240, rotation: 2, duration: 15, ease: "none" }, 0);
+      tl.fromTo("#w2, #w4", { y: 0 }, { y: 26, duration: 15, ease: "sine.inOut" }, 0);
+      tl.fromTo("#glow1", { x: 0, y: 0 }, { x: 220, y: 200, duration: 15, ease: "sine.inOut" }, 0);
+      tl.fromTo("#glow2", { x: 0, y: 0 }, { x: -180, y: -240, duration: 15, ease: "sine.inOut" }, 0);
+
+      // ---------- scene 1 ----------
+      tl.fromTo("#s1", { scale: 1 }, { scale: 1.04, duration: 3.45, ease: "none" }, 0);
+      tl.fromTo("#s1-ser1, #s1-big1", { scale: 1.08 }, { scale: 1, duration: 0.6, ease: "expo.out" }, 0);
+      serIn("#s1-ser2", 0.85);
+      bigIn("#s1-big2", 1.05);
+      serIn("#s1-ser3", 1.5);
+      bigIn("#s1-big3", 1.85);
+      tl.fromTo("#s1-bar", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "none" }, 2.1);
+      tl.fromTo("#s1-fill", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 2.15);
+      sceneOut("#s1", 3.45);
+
+      // ---------- scene 2 ----------
+      const C = 2 * Math.PI * 230;
+      gsap.set("#ring-fill", { strokeDasharray: C, strokeDashoffset: C });
+      tl.fromTo("#s2", { scale: 1 }, { scale: 1.04, duration: 3.9, ease: "none" }, 3.7);
+      serIn("#s2-ser1", 3.75);
+      bigIn("#s2-big1", 3.85);
+      tl.fromTo(
+        "#s2-pill",
+        { opacity: 0, scaleX: 0.2, filter: "blur(10px)" },
+        { opacity: 1, scaleX: 1, filter: "blur(0px)", duration: 0.45, ease: "back.out(1.6)" },
+        4.3
+      );
+      serIn("#s2-ser2", 4.75);
+      tl.fromTo("#s2-ringwrap", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: "expo.out" }, 4.95);
+      tl.fromTo("#ring-fill", { strokeDashoffset: C }, { strokeDashoffset: C * 0.5, duration: 1.0, ease: "power3.out" }, 5.05);
+      const counter = { v: 0 };
+      tl.fromTo(
+        counter,
+        { v: 0 },
+        {
+          v: 50,
+          duration: 1.0,
+          ease: "power3.out",
+          onUpdate: () => {
+            document.getElementById("pct-num").textContent = Math.round(counter.v);
+          },
+        },
+        5.05
+      );
+      tl.fromTo("#s2-pct", { scale: 1 }, { scale: 1.08, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" }, 6.05);
+      serIn("#s2-ser3", 5.9);
+      sceneOut("#s2", 7.6);
+
+      // ---------- scene 3 (longer final hold) ----------
+      tl.fromTo("#s3", { scale: 1 }, { scale: 1.05, duration: 7.2, ease: "none" }, 7.8);
+      serIn("#s3-ser1", 7.85);
+      bigIn("#s3-big1", 8.0);
+      bigIn("#s3-big2", 8.25);
+      tl.fromTo("#s3-chart .row", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.18, ease: "power3.out" }, 8.65);
+      tl.fromTo("#bar-classic", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.out" }, 8.7);
+      tl.fromTo("#bar-ptz", { scaleX: 0 }, { scaleX: 1, duration: 0.55, ease: "power3.out" }, 8.9);
+      tl.fromTo(
+        "#saved",
+        { opacity: 0, scale: 1.3, filter: "blur(8px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.4, ease: "back.out(2)" },
+        9.4
+      );
+      serIn("#s3-ser2", 9.6);
+      // gentle pulses to keep the hold alive
+      tl.to("#saved", { scale: 1.08, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut" }, 11.2);
+      tl.to("#saved", { scale: 1.08, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut" }, 13.2);
+      tl.fromTo("#footnote", { opacity: 0 }, { opacity: 0.8, duration: 0.4, ease: "none" }, 3.8);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
