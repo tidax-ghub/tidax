@@ -155,6 +155,25 @@
         stroke-linejoin: round;
       }
 
+      /* persistent header */
+      #hdr {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 70px;
+        text-align: center;
+      }
+      #hdr .big {
+        font-size: 84px;
+      }
+      #hdr .caps {
+        font-size: 26px;
+        margin-top: 6px;
+        padding-left: 0.32em;
+      }
+      .scene {
+        padding-top: 190px;
+      }
       /* scene 0 : brand */
       #s0-big {
         font-size: 170px;
@@ -176,13 +195,13 @@
 
       /* scene 1 : 20 ans */
       #s1-icon {
-        width: 300px;
-        height: 210px;
-        margin-bottom: 28px;
+        width: 250px;
+        height: 175px;
+        margin-bottom: 20px;
         overflow: visible;
       }
       #s1-big {
-        font-size: 230px;
+        font-size: 200px;
         color: var(--orange);
         text-shadow: 0 0 24px rgba(234, 101, 61, 0.4);
       }
@@ -199,13 +218,13 @@
       /* scene 2 : offre */
       #s2-grid {
         display: grid;
-        grid-template-columns: repeat(5, 96px);
-        gap: 22px 26px;
-        margin-bottom: 52px;
+        grid-template-columns: repeat(5, 84px);
+        gap: 18px 24px;
+        margin-bottom: 40px;
       }
       .bldg {
-        width: 96px;
-        height: 112px;
+        width: 84px;
+        height: 98px;
         overflow: visible;
       }
       .c-blue {
@@ -222,7 +241,7 @@
       }
       #s2-big1,
       #s2-big2 {
-        font-size: 108px;
+        font-size: 100px;
       }
       #s2-ser {
         margin-top: 14px;
@@ -235,8 +254,8 @@
       }
       #s3-coin {
         position: relative;
-        width: 330px;
-        height: 330px;
+        width: 290px;
+        height: 290px;
         border-radius: 50%;
         border: 12px solid var(--lime);
         box-shadow:
@@ -247,7 +266,7 @@
         justify-content: center;
       }
       #s3-coin .big {
-        font-size: 150px;
+        font-size: 130px;
         color: var(--lime);
         text-shadow: 0 0 20px rgba(226, 222, 62, 0.4);
       }
@@ -339,11 +358,11 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="13"
+      data-duration="6"
       data-width="960"
       data-height="1080"
     >
-      <div id="bg" class="clip" data-start="0" data-duration="13" data-track-index="0">
+      <div id="bg" class="clip" data-start="0" data-duration="6" data-track-index="0">
         <div id="glow1" class="glow"></div>
         <div id="glow2" class="glow"></div>
         <svg id="waves" viewBox="0 0 1500 1080">
@@ -359,16 +378,14 @@
         <div id="vignette"></div>
       </div>
 
-      <!-- 0 : brand -->
-      <div id="s0" class="scene clip" data-start="0" data-duration="2.1" data-track-index="1">
-        <span id="s0-ser" class="serif">chez</span>
-        <span id="s0-big" class="big orange">Médicis</span>
-        <span id="s0-caps" class="caps">Immobilier neuf</span>
-        <div id="s0-rule"></div>
+      <!-- persistent brand header -->
+      <div id="hdr" class="clip" data-start="0" data-duration="6" data-track-index="1">
+        <span class="big orange">Médicis</span>
+        <span class="caps">Immobilier neuf</span>
       </div>
 
       <!-- 1 : 20 ans -->
-      <div id="s1" class="scene clip" data-start="2.0" data-duration="2.9" data-track-index="2">
+      <div id="s1" class="scene clip" data-start="0" data-duration="2.05" data-track-index="2">
         <svg id="s1-icon" viewBox="0 0 220 150">
           <circle class="neon draw" cx="148" cy="42" r="22" stroke="#009fa3" stroke-width="7" pathLength="1"
             style="filter: drop-shadow(0 0 8px rgba(0, 159, 163, 0.9))" />
@@ -384,7 +401,7 @@
       </div>
 
       <!-- 2 : offre la plus large -->
-      <div id="s2" class="scene clip" data-start="4.8" data-duration="2.9" data-track-index="3">
+      <div id="s2" class="scene clip" data-start="2.0" data-duration="2.05" data-track-index="3">
         <div id="s2-grid">
           <svg class="bldg c-blue"><use href="#sym-bldg" /></svg>
           <svg class="bldg c-teal"><use href="#sym-bldg" /></svg>
@@ -408,37 +425,14 @@
       </div>
 
       <!-- 3 : gratuit -->
-      <div id="s3" class="scene clip" data-start="7.6" data-duration="2.5" data-track-index="4">
+      <div id="s3" class="scene clip" data-start="4.0" data-duration="2.0" data-track-index="4">
         <div id="s3-coinwrap">
           <div id="s3-coin"><span class="big">0 €</span></div>
         </div>
-        <span id="s3-ser" class="serif">notre service est</span>
-        <span id="s3-big" class="big">gratuit</span>
+        <span id="s3-ser" class="serif">notre service</span>
+        <span id="s3-big" class="big orange">gratuit</span>
       </div>
 
-      <!-- 4 : recap -->
-      <div id="s4" class="scene clip" data-start="10.0" data-duration="3.0" data-track-index="5">
-        <div id="s4-lock">
-          <span class="big orange">Médicis</span>
-          <span class="caps">Immobilier neuf</span>
-        </div>
-        <div id="s4-row">
-          <div id="b1" class="badge">
-            <div class="badge-ring"><span>+20</span></div>
-            <span class="badge-label">+ de 20 ans</span>
-          </div>
-          <div id="b2" class="badge">
-            <div class="badge-ring">
-              <svg class="bldg" style="width: 84px; height: 98px; color: var(--teal)"><use href="#sym-bldg" /></svg>
-            </div>
-            <span class="badge-label">Offre large</span>
-          </div>
-          <div id="b3" class="badge">
-            <div class="badge-ring"><span>0 €</span></div>
-            <span class="badge-label">Gratuit</span>
-          </div>
-        </div>
-      </div>
     </div>
 
     <script>
@@ -465,69 +459,54 @@
         tl.fromTo(sel, { scale: 1 }, { scale: 1.04, duration: dur, ease: "none" }, at);
 
       // background drift
-      tl.fromTo("#waves", { x: 0, rotation: -2 }, { x: -220, rotation: 2, duration: 13, ease: "none" }, 0);
-      tl.fromTo("#w2, #w4", { y: 0 }, { y: 24, duration: 13, ease: "sine.inOut" }, 0);
-      tl.fromTo("#glow1", { x: 0, y: 0 }, { x: 220, y: 200, duration: 13, ease: "sine.inOut" }, 0);
-      tl.fromTo("#glow2", { x: 0, y: 0 }, { x: -180, y: -240, duration: 13, ease: "sine.inOut" }, 0);
+      tl.fromTo("#waves", { x: 0, rotation: -2 }, { x: -220, rotation: 2, duration: 6, ease: "none" }, 0);
+      tl.fromTo("#w2, #w4", { y: 0 }, { y: 24, duration: 6, ease: "sine.inOut" }, 0);
+      tl.fromTo("#glow1", { x: 0, y: 0 }, { x: 220, y: 200, duration: 6, ease: "sine.inOut" }, 0);
+      tl.fromTo("#glow2", { x: 0, y: 0 }, { x: -180, y: -240, duration: 6, ease: "sine.inOut" }, 0);
 
-      // ---------- 0 : brand (visible from frame 0) ----------
-      push("#s0", 0, 1.8);
-      tl.fromTo("#s0-ser, #s0-big", { scale: 1.08 }, { scale: 1, duration: 0.6, ease: "expo.out" }, 0);
-      tl.fromTo("#s0-caps", { opacity: 0, scaleX: 1.35, filter: "blur(6px)" }, { opacity: 1, scaleX: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 0.3);
-      tl.fromTo("#s0-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.inOut" }, 0.55);
-      sceneOut("#s0", 1.8);
+      // header settles in (visible from frame 0)
+      tl.fromTo("#hdr", { scale: 1.06 }, { scale: 1, duration: 0.6, ease: "expo.out" }, 0);
 
-      // ---------- 1 : + de 20 ans ----------
-      push("#s1", 2.0, 2.6);
-      tl.fromTo("#s1-icon .draw", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.6, stagger: 0.08, ease: "power2.out" }, 2.05);
-      bigIn("#s1-big", 2.3);
+      // ---------- 1 : + de 20 ans (0 - 2 s) ----------
+      push("#s1", 0, 1.75);
+      tl.fromTo("#s1-icon .draw", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.5, stagger: 0.06, ease: "power2.out" }, 0);
+      bigIn("#s1-big", 0.1);
       const years = { v: 0 };
       tl.fromTo(
         years,
         { v: 0 },
         {
           v: 20,
-          duration: 0.9,
+          duration: 0.75,
           ease: "power3.out",
           onUpdate: () => {
             document.getElementById("s1-num").textContent = Math.round(years.v);
           },
         },
-        2.35
+        0.1
       );
-      serIn("#s1-ser", 2.9);
-      sceneOut("#s1", 4.6);
+      serIn("#s1-ser", 0.55);
+      sceneOut("#s1", 1.75);
 
-      // ---------- 2 : offre la plus large ----------
-      push("#s2", 4.8, 2.6);
+      // ---------- 2 : offre la plus large (2 - 4 s) ----------
+      push("#s2", 2.0, 1.75);
       tl.fromTo(
         "#s2-grid .bldg",
         { opacity: 0, scale: 0, y: 30 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: "back.out(2.2)", stagger: { each: 0.035, from: "center", grid: [3, 5] } },
-        4.85
+        { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: "back.out(2.2)", stagger: { each: 0.025, from: "center", grid: [3, 5] } },
+        2.0
       );
-      bigIn("#s2-big1", 5.25);
-      bigIn("#s2-big2", 5.45);
-      serIn("#s2-ser", 5.85);
-      sceneOut("#s2", 7.4);
+      bigIn("#s2-big1", 2.15);
+      bigIn("#s2-big2", 2.3);
+      serIn("#s2-ser", 2.5);
+      sceneOut("#s2", 3.75);
 
-      // ---------- 3 : gratuit ----------
-      push("#s3", 7.6, 2.2);
-      tl.fromTo("#s3-coin", { rotationY: -540, scale: 0.4, opacity: 0 }, { rotationY: 0, scale: 1, opacity: 1, duration: 0.9, ease: "power3.out" }, 7.65);
-      serIn("#s3-ser", 8.2);
-      bigIn("#s3-big", 8.4);
-      tl.fromTo("#s3-coin", { scale: 1 }, { scale: 1.06, duration: 0.2, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, 8.9);
-      sceneOut("#s3", 9.8);
-
-      // ---------- 4 : recap ----------
-      tl.fromTo("#s4", { scale: 1.03 }, { scale: 1, duration: 3.0, ease: "power1.out" }, 10.0);
-      bigIn("#s4-lock", 10.05);
-      tl.fromTo(
-        "#s4-row .badge",
-        { opacity: 0, y: 40, scale: 0.7 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.12, ease: "back.out(1.8)" },
-        10.3
-      );
+      // ---------- 3 : gratuit (4 - 6 s) ----------
+      push("#s3", 4.0, 2.0);
+      tl.fromTo("#s3-coin", { rotationY: -360, scale: 0.5, opacity: 0 }, { rotationY: 0, scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 4.0);
+      serIn("#s3-ser", 4.2);
+      bigIn("#s3-big", 4.35);
+      tl.fromTo("#s3-coin", { scale: 1 }, { scale: 1.06, duration: 0.18, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, 4.9);
 
       window.__timelines["main"] = tl;
       tl.seek(0);
