@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/js/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Oswald";
+        src: url("assets/fonts/oswald-latin-700-normal.woff2") format("woff2");
+        font-weight: 700;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "OldStandard";
+        src: url("assets/fonts/old-standard-tt-latin-400-italic.woff2") format("woff2");
+        font-weight: 400;
+        font-style: italic;
+      }
+      :root {
+        --blue: #3761ad;
+        --orange: #ea653d;
+        --teal: #009fa3;
+        --lime: #e2de3e;
+        --ground: #151312;
+        --ground-2: #221c19;
+        --ink: #f4f6fb;
+        --muted: #c9c2bd;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ground);
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: radial-gradient(ellipse at 50% 45%, var(--ground-2) 0%, var(--ground) 72%);
+        color: var(--ink);
+      }
+
+      /* ---------- background ---------- */
+      #bg {
+        position: absolute;
+        inset: 0;
+      }
+      .glow {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+      }
+      #glow1 {
+        width: 900px;
+        height: 600px;
+        left: -300px;
+        top: 40px;
+        background: var(--blue);
+        opacity: 0.22;
+      }
+      #glow2 {
+        width: 800px;
+        height: 600px;
+        right: -300px;
+        bottom: -40px;
+        background: var(--teal);
+        opacity: 0.14;
+      }
+      #waves {
+        position: absolute;
+        left: -300px;
+        top: 0;
+        width: 2700px;
+        height: 1080px;
+      }
+      #waves path {
+        fill: none;
+        stroke-linecap: round;
+      }
+      .w-blue {
+        stroke: #5b86d6;
+        filter: drop-shadow(0 0 8px rgba(55, 97, 173, 0.9));
+      }
+      .w-teal {
+        stroke: var(--teal);
+        filter: drop-shadow(0 0 8px rgba(0, 159, 163, 0.9));
+      }
+      #vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(0, 0, 0, 0) 45%,
+          rgba(0, 0, 0, 0.45) 80%,
+          rgba(0, 0, 0, 0.8) 100%
+        );
+      }
+
+      /* ---------- type ---------- */
+      #scene {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 100px 20px;
+      }
+      .serif {
+        font-family: "OldStandard", serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 60px;
+        color: var(--ink);
+        opacity: 0.92;
+        line-height: 1.15;
+        display: block;
+      }
+      .big {
+        font-family: "Oswald", sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        line-height: 1;
+        letter-spacing: 0.005em;
+        color: var(--ink);
+        white-space: nowrap;
+        display: block;
+        text-shadow: 0 0 30px rgba(0, 0, 0, 0.45);
+      }
+      .orange {
+        color: var(--orange);
+        text-shadow: 0 0 20px rgba(234, 101, 61, 0.35);
+      }
+      #big1 {
+        font-size: 150px;
+        margin: 8px 0 18px;
+      }
+
+      /* years timeline */
+      #years {
+        position: relative;
+        width: 1200px;
+        height: 12px;
+        margin: 30px 0 100px;
+        border-radius: 6px;
+        background: rgba(244, 246, 251, 0.12);
+      }
+      #years-fill {
+        position: absolute;
+        inset: 0;
+        border-radius: 6px;
+        background: linear-gradient(90deg, var(--teal), var(--lime));
+        box-shadow: 0 0 20px rgba(0, 159, 163, 0.7);
+        transform-origin: left center;
+      }
+      .tick {
+        position: absolute;
+        top: -9px;
+        width: 30px;
+        height: 30px;
+        margin-left: -15px;
+        border-radius: 50%;
+        background: var(--ground);
+        border: 4px solid var(--teal);
+        box-shadow: 0 0 14px rgba(0, 159, 163, 0.7);
+      }
+      .tick.last {
+        border-color: var(--lime);
+        box-shadow: 0 0 14px rgba(226, 222, 62, 0.7);
+      }
+      .tick span {
+        position: absolute;
+        top: 36px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: "OldStandard", serif;
+        font-style: italic;
+        font-size: 34px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      /* struck purchase cost */
+      #strike-wrap {
+        position: relative;
+        margin-top: 8px;
+      }
+      #big2 {
+        font-size: 140px;
+        color: var(--muted);
+      }
+      #strike {
+        position: absolute;
+        left: -24px;
+        right: -24px;
+        top: 57%;
+        height: 14px;
+        margin-top: -7px;
+        border-radius: 6px;
+        background: var(--orange);
+        box-shadow: 0 0 22px rgba(234, 101, 61, 0.75);
+        transform-origin: left center;
+        transform: rotate(-3deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="5"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="bg" class="clip" data-start="0" data-duration="5" data-track-index="0">
+        <div id="glow1" class="glow"></div>
+        <div id="glow2" class="glow"></div>
+        <svg id="waves" viewBox="0 0 2700 1080">
+          <path class="w-blue" stroke-width="4" opacity="0.9"
+            d="M-50 210 C 400 110, 800 330, 1300 210 S 2200 100, 2750 240" />
+          <path id="w2" class="w-teal" stroke-width="2.5" opacity="0.6"
+            d="M-50 260 C 440 180, 840 380, 1340 260 S 2240 160, 2750 300" />
+          <path class="w-teal" stroke-width="4" opacity="0.85"
+            d="M-50 860 C 420 960, 820 760, 1300 870 S 2220 980, 2750 830" />
+          <path id="w4" class="w-blue" stroke-width="2.5" opacity="0.6"
+            d="M-50 910 C 460 1010, 860 810, 1340 920 S 2260 1030, 2750 880" />
+        </svg>
+        <div id="vignette"></div>
+      </div>
+
+      <div id="scene" class="clip" data-start="0" data-duration="5" data-track-index="1">
+        <span id="ser1" class="serif">moi ce que je te dis, c'est de</span>
+        <span id="big1" class="big">comparer le <span class="orange">coût total</span></span>
+        <span id="ser2" class="serif">sur plusieurs années</span>
+        <div id="years">
+          <div id="years-fill"></div>
+          <div class="tick" style="left: 0%"><span>1 an</span></div>
+          <div class="tick" style="left: 33.3%"><span>5 ans</span></div>
+          <div class="tick" style="left: 66.6%"><span>10 ans</span></div>
+          <div class="tick last" style="left: 100%"><span>20 ans</span></div>
+        </div>
+        <span id="ser3" class="serif">et ne pas regarder uniquement</span>
+        <div id="strike-wrap">
+          <span id="big2" class="big">le coût d'achat</span>
+          <div id="strike" data-layout-ignore></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const bigIn = (sel, at) =>
+        tl.fromTo(
+          sel,
+          { opacity: 0, y: 50, scale: 1.15, filter: "blur(12px)" },
+          { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.4, ease: "expo.out" },
+          at
+        );
+      const serIn = (sel, at) =>
+        tl.fromTo(
+          sel,
+          { opacity: 0, y: 18, filter: "blur(5px)" },
+          { opacity: 0.92, y: 0, filter: "blur(0px)", duration: 0.35, ease: "power3.out" },
+          at
+        );
+
+      // background drift
+      tl.fromTo("#waves", { x: 0, rotation: -1.5 }, { x: -220, rotation: 1.5, duration: 5, ease: "none" }, 0);
+      tl.fromTo("#w2, #w4", { y: 0 }, { y: 20, duration: 5, ease: "sine.inOut" }, 0);
+      tl.fromTo("#glow1", { x: 0, y: 0 }, { x: 200, y: 120, duration: 5, ease: "sine.inOut" }, 0);
+      tl.fromTo("#glow2", { x: 0, y: 0 }, { x: -160, y: -120, duration: 5, ease: "sine.inOut" }, 0);
+
+      // slow camera push
+      tl.fromTo("#scene", { scale: 1 }, { scale: 1.035, duration: 5, ease: "none" }, 0);
+
+      // first line already on screen at frame 0 (thumbnail), settling in
+      tl.fromTo("#ser1", { scale: 1.06 }, { scale: 1, duration: 0.5, ease: "expo.out" }, 0);
+      bigIn("#big1", 0.15);
+
+      serIn("#ser2", 0.8);
+      tl.fromTo("#years", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "none" }, 0.9);
+      tl.fromTo("#years-fill", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power2.inOut" }, 0.95);
+      tl.fromTo(
+        "#years .tick",
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.25, stagger: 0.27, ease: "back.out(2.5)" },
+        0.95
+      );
+
+      serIn("#ser3", 1.9);
+      bigIn("#big2", 2.15);
+      tl.fromTo("#strike", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.inOut" }, 2.75);
+      tl.to("#big2", { opacity: 0.55, duration: 0.3, ease: "none" }, 2.9);
+      // final emphasis back on the total cost
+      tl.fromTo("#big1 .orange", { scale: 1 }, { scale: 1.06, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut" }, 3.4);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
