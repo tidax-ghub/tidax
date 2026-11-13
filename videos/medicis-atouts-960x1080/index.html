@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=960, height=1080" />
+    <script src="assets/js/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Oswald";
+        src: url("assets/fonts/oswald-latin-700-normal.woff2") format("woff2");
+        font-weight: 700;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "OldStandard";
+        src: url("assets/fonts/old-standard-tt-latin-400-italic.woff2") format("woff2");
+        font-weight: 400;
+        font-style: italic;
+      }
+      :root {
+        --blue: #3761ad;
+        --blue-hi: #5b86d6;
+        --orange: #ea653d;
+        --teal: #009fa3;
+        --lime: #e2de3e;
+        --ground: #151312;
+        --ground-2: #221c19;
+        --ink: #f4f6fb;
+        --muted: #c9c2bd;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 960px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ground);
+      }
+      #root {
+        position: relative;
+        width: 960px;
+        height: 1080px;
+        overflow: hidden;
+        background: radial-gradient(ellipse at 50% 45%, var(--ground-2) 0%, var(--ground) 72%);
+        color: var(--ink);
+      }
+
+      /* ---------- background ---------- */
+      #bg {
+        position: absolute;
+        inset: 0;
+      }
+      .glow {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+      }
+      #glow1 {
+        width: 620px;
+        height: 480px;
+        left: -260px;
+        top: 60px;
+        background: var(--blue);
+        opacity: 0.22;
+      }
+      #glow2 {
+        width: 540px;
+        height: 520px;
+        right: -280px;
+        bottom: 20px;
+        background: var(--teal);
+        opacity: 0.14;
+      }
+      #waves {
+        position: absolute;
+        left: -270px;
+        top: 0;
+        width: 1500px;
+        height: 1080px;
+      }
+      #waves path {
+        fill: none;
+        stroke-linecap: round;
+      }
+      .w-blue {
+        stroke: var(--blue-hi);
+        filter: drop-shadow(0 0 8px rgba(55, 97, 173, 0.9));
+      }
+      .w-teal {
+        stroke: var(--teal);
+        filter: drop-shadow(0 0 8px rgba(0, 159, 163, 0.9));
+      }
+      #vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(0, 0, 0, 0) 45%,
+          rgba(0, 0, 0, 0.45) 80%,
+          rgba(0, 0, 0, 0.8) 100%
+        );
+      }
+
+      /* ---------- type ---------- */
+      .scene {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 50px 20px;
+      }
+      .serif {
+        font-family: "OldStandard", serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 44px;
+        color: var(--ink);
+        opacity: 0.92;
+        line-height: 1.15;
+        display: block;
+      }
+      .big {
+        font-family: "Oswald", sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        line-height: 1;
+        letter-spacing: 0.005em;
+        color: var(--ink);
+        white-space: nowrap;
+        display: block;
+        text-shadow: 0 0 30px rgba(0, 0, 0, 0.45);
+      }
+      .orange {
+        color: var(--orange);
+        text-shadow: 0 0 20px rgba(234, 101, 61, 0.35);
+      }
+      .caps {
+        font-family: "Oswald", sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.32em;
+        color: var(--ink);
+        display: block;
+      }
+      .neon {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* scene 0 : brand */
+      #s0-big {
+        font-size: 170px;
+        margin: 6px 0 14px;
+      }
+      #s0-caps {
+        font-size: 40px;
+        padding-left: 0.32em;
+      }
+      #s0-rule {
+        width: 420px;
+        height: 6px;
+        margin-top: 30px;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--blue), var(--teal), var(--lime));
+        box-shadow: 0 0 18px rgba(0, 159, 163, 0.6);
+        transform-origin: center;
+      }
+
+      /* scene 1 : 20 ans */
+      #s1-icon {
+        width: 300px;
+        height: 210px;
+        margin-bottom: 28px;
+        overflow: visible;
+      }
+      #s1-big {
+        font-size: 230px;
+        color: var(--orange);
+        text-shadow: 0 0 24px rgba(234, 101, 61, 0.4);
+      }
+      #s1-big small {
+        font-size: 110px;
+        margin-left: 10px;
+        color: var(--ink);
+        text-shadow: none;
+      }
+      #s1-ser {
+        margin-top: 16px;
+      }
+
+      /* scene 2 : offre */
+      #s2-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 96px);
+        gap: 22px 26px;
+        margin-bottom: 52px;
+      }
+      .bldg {
+        width: 96px;
+        height: 112px;
+        overflow: visible;
+      }
+      .c-blue {
+        color: var(--blue-hi);
+        filter: drop-shadow(0 0 8px rgba(55, 97, 173, 0.9));
+      }
+      .c-teal {
+        color: var(--teal);
+        filter: drop-shadow(0 0 8px rgba(0, 159, 163, 0.9));
+      }
+      .c-orange {
+        color: var(--orange);
+        filter: drop-shadow(0 0 10px rgba(234, 101, 61, 0.9));
+      }
+      #s2-big1,
+      #s2-big2 {
+        font-size: 108px;
+      }
+      #s2-ser {
+        margin-top: 14px;
+      }
+
+      /* scene 3 : gratuit */
+      #s3-coinwrap {
+        perspective: 900px;
+        margin-bottom: 40px;
+      }
+      #s3-coin {
+        position: relative;
+        width: 330px;
+        height: 330px;
+        border-radius: 50%;
+        border: 12px solid var(--lime);
+        box-shadow:
+          0 0 30px rgba(226, 222, 62, 0.55),
+          inset 0 0 30px rgba(226, 222, 62, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #s3-coin .big {
+        font-size: 150px;
+        color: var(--lime);
+        text-shadow: 0 0 20px rgba(226, 222, 62, 0.4);
+      }
+      #s3-ser {
+        margin-bottom: 6px;
+      }
+      #s3-big {
+        font-size: 128px;
+      }
+
+      /* scene 4 : recap */
+      #s4-lock .big {
+        font-size: 120px;
+      }
+      #s4-lock .caps {
+        font-size: 30px;
+        margin-top: 10px;
+        padding-left: 0.32em;
+      }
+      #s4-row {
+        display: flex;
+        gap: 48px;
+        margin-top: 80px;
+      }
+      .badge {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+      }
+      .badge-ring {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 5px solid currentColor;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 18px currentColor, inset 0 0 14px rgba(255, 255, 255, 0.04);
+      }
+      .badge-label {
+        font-family: "Oswald", sans-serif;
+        font-weight: 700;
+        font-size: 36px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--ink);
+      }
+      #b1 {
+        color: var(--orange);
+      }
+      #b2 {
+        color: var(--teal);
+      }
+      #b3 {
+        color: var(--lime);
+      }
+      #b1 .badge-ring span {
+        font-family: "Oswald", sans-serif;
+        font-weight: 700;
+        font-size: 84px;
+        color: var(--orange);
+      }
+      #b3 .badge-ring span {
+        font-family: "Oswald", sans-serif;
+        font-weight: 700;
+        font-size: 84px;
+        color: var(--lime);
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute">
+      <defs>
+        <symbol id="sym-bldg" viewBox="0 0 60 70">
+          <rect x="6" y="6" width="48" height="60" rx="4" fill="none" stroke="currentColor" stroke-width="4" />
+          <rect x="14" y="15" width="8" height="8" rx="1.5" fill="currentColor" />
+          <rect x="26" y="15" width="8" height="8" rx="1.5" fill="currentColor" />
+          <rect x="38" y="15" width="8" height="8" rx="1.5" fill="currentColor" />
+          <rect x="14" y="29" width="8" height="8" rx="1.5" fill="currentColor" />
+          <rect x="26" y="29" width="8" height="8" rx="1.5" fill="currentColor" />
+          <rect x="38" y="29" width="8" height="8" rx="1.5" fill="currentColor" />
+          <rect x="25" y="47" width="10" height="19" rx="1.5" fill="currentColor" />
+        </symbol>
+      </defs>
+    </svg>
+
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="13"
+      data-width="960"
+      data-height="1080"
+    >
+      <div id="bg" class="clip" data-start="0" data-duration="13" data-track-index="0">
+        <div id="glow1" class="glow"></div>
+        <div id="glow2" class="glow"></div>
+        <svg id="waves" viewBox="0 0 1500 1080">
+          <path class="w-blue" stroke-width="4" opacity="0.9"
+            d="M-50 200 C 220 110, 470 310, 750 210 S 1250 100, 1550 230" />
+          <path id="w2" class="w-teal" stroke-width="2.5" opacity="0.6"
+            d="M-50 250 C 260 180, 500 370, 790 270 S 1270 170, 1550 290" />
+          <path class="w-teal" stroke-width="4" opacity="0.85"
+            d="M-50 870 C 230 960, 500 760, 770 870 S 1270 980, 1550 840" />
+          <path id="w4" class="w-blue" stroke-width="2.5" opacity="0.6"
+            d="M-50 920 C 280 1010, 540 820, 810 925 S 1290 1030, 1550 890" />
+        </svg>
+        <div id="vignette"></div>
+      </div>
+
+      <!-- 0 : brand -->
+      <div id="s0" class="scene clip" data-start="0" data-duration="2.1" data-track-index="1">
+        <span id="s0-ser" class="serif">chez</span>
+        <span id="s0-big" class="big orange">Médicis</span>
+        <span id="s0-caps" class="caps">Immobilier neuf</span>
+        <div id="s0-rule"></div>
+      </div>
+
+      <!-- 1 : 20 ans -->
+      <div id="s1" class="scene clip" data-start="2.0" data-duration="2.9" data-track-index="2">
+        <svg id="s1-icon" viewBox="0 0 220 150">
+          <circle class="neon draw" cx="148" cy="42" r="22" stroke="#009fa3" stroke-width="7" pathLength="1"
+            style="filter: drop-shadow(0 0 8px rgba(0, 159, 163, 0.9))" />
+          <path class="neon draw" d="M120 84 C 130 78, 139 76, 148 76 C 174 76, 194 94, 194 128" stroke="#009fa3"
+            stroke-width="7" pathLength="1" style="filter: drop-shadow(0 0 8px rgba(0, 159, 163, 0.9))" />
+          <circle class="neon draw" cx="82" cy="48" r="27" stroke="#ea653d" stroke-width="8" pathLength="1"
+            style="filter: drop-shadow(0 0 10px rgba(234, 101, 61, 0.9))" />
+          <path class="neon draw" d="M28 136 C 28 102, 52 88, 82 88 C 112 88, 136 102, 136 136" stroke="#ea653d"
+            stroke-width="8" pathLength="1" style="filter: drop-shadow(0 0 10px rgba(234, 101, 61, 0.9))" />
+        </svg>
+        <span id="s1-big" class="big">+<span id="s1-num">0</span><small>ANS</small></span>
+        <span id="s1-ser" class="serif">à accompagner nos clients</span>
+      </div>
+
+      <!-- 2 : offre la plus large -->
+      <div id="s2" class="scene clip" data-start="4.8" data-duration="2.9" data-track-index="3">
+        <div id="s2-grid">
+          <svg class="bldg c-blue"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-teal"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-blue"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-teal"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-blue"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-teal"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-blue"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-orange"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-blue"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-teal"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-blue"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-teal"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-blue"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-teal"><use href="#sym-bldg" /></svg>
+          <svg class="bldg c-blue"><use href="#sym-bldg" /></svg>
+        </div>
+        <span id="s2-big1" class="big">L'offre</span>
+        <span id="s2-big2" class="big orange">la plus large</span>
+        <span id="s2-ser" class="serif">du marché</span>
+      </div>
+
+      <!-- 3 : gratuit -->
+      <div id="s3" class="scene clip" data-start="7.6" data-duration="2.5" data-track-index="4">
+        <div id="s3-coinwrap">
+          <div id="s3-coin"><span class="big">0 €</span></div>
+        </div>
+        <span id="s3-ser" class="serif">notre service est</span>
+        <span id="s3-big" class="big">gratuit</span>
+      </div>
+
+      <!-- 4 : recap -->
+      <div id="s4" class="scene clip" data-start="10.0" data-duration="3.0" data-track-index="5">
+        <div id="s4-lock">
+          <span class="big orange">Médicis</span>
+          <span class="caps">Immobilier neuf</span>
+        </div>
+        <div id="s4-row">
+          <div id="b1" class="badge">
+            <div class="badge-ring"><span>+20</span></div>
+            <span class="badge-label">+ de 20 ans</span>
+          </div>
+          <div id="b2" class="badge">
+            <div class="badge-ring">
+              <svg class="bldg" style="width: 84px; height: 98px; color: var(--teal)"><use href="#sym-bldg" /></svg>
+            </div>
+            <span class="badge-label">Offre large</span>
+          </div>
+          <div id="b3" class="badge">
+            <div class="badge-ring"><span>0 €</span></div>
+            <span class="badge-label">Gratuit</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const bigIn = (sel, at) =>
+        tl.fromTo(
+          sel,
+          { opacity: 0, y: 50, scale: 1.15, filter: "blur(12px)" },
+          { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.4, ease: "expo.out" },
+          at
+        );
+      const serIn = (sel, at) =>
+        tl.fromTo(
+          sel,
+          { opacity: 0, y: 16, filter: "blur(5px)" },
+          { opacity: 0.92, y: 0, filter: "blur(0px)", duration: 0.35, ease: "power3.out" },
+          at
+        );
+      const sceneOut = (sel, at) =>
+        tl.to(sel, { opacity: 0, scale: 1.12, filter: "blur(16px)", duration: 0.3, ease: "power2.in" }, at);
+      const push = (sel, at, dur) =>
+        tl.fromTo(sel, { scale: 1 }, { scale: 1.04, duration: dur, ease: "none" }, at);
+
+      // background drift
+      tl.fromTo("#waves", { x: 0, rotation: -2 }, { x: -220, rotation: 2, duration: 13, ease: "none" }, 0);
+      tl.fromTo("#w2, #w4", { y: 0 }, { y: 24, duration: 13, ease: "sine.inOut" }, 0);
+      tl.fromTo("#glow1", { x: 0, y: 0 }, { x: 220, y: 200, duration: 13, ease: "sine.inOut" }, 0);
+      tl.fromTo("#glow2", { x: 0, y: 0 }, { x: -180, y: -240, duration: 13, ease: "sine.inOut" }, 0);
+
+      // ---------- 0 : brand (visible from frame 0) ----------
+      push("#s0", 0, 1.8);
+      tl.fromTo("#s0-ser, #s0-big", { scale: 1.08 }, { scale: 1, duration: 0.6, ease: "expo.out" }, 0);
+      tl.fromTo("#s0-caps", { opacity: 0, scaleX: 1.35, filter: "blur(6px)" }, { opacity: 1, scaleX: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 0.3);
+      tl.fromTo("#s0-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.inOut" }, 0.55);
+      sceneOut("#s0", 1.8);
+
+      // ---------- 1 : + de 20 ans ----------
+      push("#s1", 2.0, 2.6);
+      tl.fromTo("#s1-icon .draw", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.6, stagger: 0.08, ease: "power2.out" }, 2.05);
+      bigIn("#s1-big", 2.3);
+      const years = { v: 0 };
+      tl.fromTo(
+        years,
+        { v: 0 },
+        {
+          v: 20,
+          duration: 0.9,
+          ease: "power3.out",
+          onUpdate: () => {
+            document.getElementById("s1-num").textContent = Math.round(years.v);
+          },
+        },
+        2.35
+      );
+      serIn("#s1-ser", 2.9);
+      sceneOut("#s1", 4.6);
+
+      // ---------- 2 : offre la plus large ----------
+      push("#s2", 4.8, 2.6);
+      tl.fromTo(
+        "#s2-grid .bldg",
+        { opacity: 0, scale: 0, y: 30 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: "back.out(2.2)", stagger: { each: 0.035, from: "center", grid: [3, 5] } },
+        4.85
+      );
+      bigIn("#s2-big1", 5.25);
+      bigIn("#s2-big2", 5.45);
+      serIn("#s2-ser", 5.85);
+      sceneOut("#s2", 7.4);
+
+      // ---------- 3 : gratuit ----------
+      push("#s3", 7.6, 2.2);
+      tl.fromTo("#s3-coin", { rotationY: -540, scale: 0.4, opacity: 0 }, { rotationY: 0, scale: 1, opacity: 1, duration: 0.9, ease: "power3.out" }, 7.65);
+      serIn("#s3-ser", 8.2);
+      bigIn("#s3-big", 8.4);
+      tl.fromTo("#s3-coin", { scale: 1 }, { scale: 1.06, duration: 0.2, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, 8.9);
+      sceneOut("#s3", 9.8);
+
+      // ---------- 4 : recap ----------
+      tl.fromTo("#s4", { scale: 1.03 }, { scale: 1, duration: 3.0, ease: "power1.out" }, 10.0);
+      bigIn("#s4-lock", 10.05);
+      tl.fromTo(
+        "#s4-row .badge",
+        { opacity: 0, y: 40, scale: 0.7 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.12, ease: "back.out(1.8)" },
+        10.3
+      );
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
